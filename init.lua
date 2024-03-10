@@ -63,6 +63,60 @@ require("lazy").setup({
                 return ""
             end
 
+            local pick = require("mini.pick")
+            pick.setup({
+                mappings = {
+                    caret_left = "<A-l>",
+                    caret_right = "<A-h>",
+
+                    choose_in_vsplit = "<A-s>",
+
+                    mark = "<A-m>",
+                    mark_all = "<A-a>",
+
+                    move_down = "<A-j>",
+                    move_up = "<A-k>",
+                    move_start = "<A-g>",
+
+                    scroll_down = "<A-J>",
+                    scroll_up = "<A-K>",
+                    scroll_left = "<A-L>",
+                    scroll_right = "<A-H>",
+
+                    refine = "<A-r>",
+                    refine_marked = "<A-R>",
+
+                    choose_marked = "<S-CR>"
+                },
+
+                options = {
+                    use_cache = true
+                },
+
+                source = {
+                    show = pick.default_show
+                },
+
+                window = {
+                    config = function()
+                        local height = math.floor(0.618 * vim.o.lines)
+                        local width = math.floor(0.618 * vim.o.columns)
+                        return {
+                            anchor = 'NW',
+                            height = height,
+                            width = width,
+                            row = math.floor(0.5 * (vim.o.lines - height)),
+                            col = math.floor(0.5 * (vim.o.columns - width)),
+                        }
+                    end
+                }
+            })
+            vim.keymap.set('n', "<Leader>pf", pick.builtin.files, { desc = "Pick files " })
+            vim.keymap.set('n', "<Leader>pg", pick.builtin.grep_live, { desc = "Live grep" })
+            vim.keymap.set('n', "<Leader>h", pick.builtin.help, { desc = "Help" })
+            vim.keymap.set('n', "<Leader>pb", pick.builtin.buffers, { desc = "Pick buffer" })
+            vim.keymap.set('n', "<Leader>pp", pick.builtin.resume, { desc = "Resume last pick" })
+
             require("mini.completion").setup({})
             vim.keymap.set('i', "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
             vim.keymap.set('i', "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
