@@ -231,14 +231,10 @@ require("lazy").setup({
     },
 
     {
+        "mcchrish/zenbones.nvim",
+        dependencies = { "rktjmp/lush.nvim" },
         config = function()
-    {
-        "Skullamortis/forest.nvim",
-        config = function()
-            require("forest").setup({
-                dim_inactive = true
-            })
-            vim.cmd.colorscheme("forest")
+            vim.cmd.colorscheme("zenwritten")
         end
     }
 }, {
