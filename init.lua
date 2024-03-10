@@ -1,11 +1,12 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, "<Space>", "<Nop>", { silent = true })
+vim.keymap.set({ 'n', 'v' }, "<Leader>w", "<C-w>")
 
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.wrap = false
-vim.wo.colorcolumn = "80"
+vim.wo.colorcolumn = "100"
 
 vim.o.cursorline = true
 vim.o.mouse = 'a'
@@ -17,8 +18,6 @@ vim.o.scrolloff = 10
 vim.o.timeoutlen = 500
 vim.o.showmode = false
 vim.o.undofile = true
-vim.o.splitright = true
-vim.o.splitbelow = true
 vim.o.inccommand = "split"
 
 vim.opt.clipboard:append("unnamedplus")
@@ -55,8 +54,6 @@ require("lazy").setup({
 
             local trailspace = require("mini.trailspace")
             trailspace.setup({})
-            vim.keymap.set('n', "<Leader>d<Space>", trailspace.trim)
-            vim.keymap.set('n', "<Leader>dl", trailspace.trim_last_lines)
 
             local statusline = require("mini.statusline")
             statusline.setup({
@@ -92,7 +89,6 @@ require("lazy").setup({
                     changedelete = { text = "-" },
                     untracked = { text = "?" }
                 },
-                current_line_blame = true
             })
         end
     },
@@ -109,9 +105,6 @@ require("lazy").setup({
                                 package_installed = '✓',
                                 package_uninstalled = '✗',
                                 package_pending = '⟳'
-                            },
-                            keymaps = {
-                                toggle_package_install_log = 'L'
                             }
                         },
                     })
@@ -225,10 +218,10 @@ require("lazy").setup({
     }
 })
 
-vim.keymap.set('n', "<Leader>d", vim.diagnostic.open_float)
-vim.keymap.set('n', "<Leader>D", vim.diagnostic.setloclist)
-vim.keymap.set('n', "]d", vim.diagnostic.goto_next)
-vim.keymap.set('n', "[d", vim.diagnostic.goto_prev)
+-- vim.keymap.set('n', "<Leader>d", vim.diagnostic.open_float)
+-- vim.keymap.set('n', "<Leader>D", vim.diagnostic.setloclist)
+-- vim.keymap.set('n', "]d", vim.diagnostic.goto_next)
+-- vim.keymap.set('n', "[d", vim.diagnostic.goto_prev)
 
 vim.keymap.set({ 'n', 'v' }, 'H', 'b')
 vim.keymap.set({ 'n', 'v' }, 'L', 'w')
@@ -236,10 +229,5 @@ vim.keymap.set('n', 'J', "<C-d>")
 vim.keymap.set('n', 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", "<cmd>nohlsearch<CR>")
 
-vim.keymap.set({ 'n', 'v' }, "<Leader>ww", "<C-w>w")
-vim.keymap.set({ 'n', 'v' }, "<Leader>wo", "<C-w>o")
-vim.keymap.set({ 'n', 'v' }, "<Leader>wc", "<C-w>c")
-vim.keymap.set({ 'n', 'v' }, "<Leader>wv", "<C-w>v")
-vim.keymap.set({ 'n', 'v' }, "<Leader>ws", "<C-w>s")
 
 -- vim: ts=4 sts=4 sw=4 et
