@@ -233,21 +233,6 @@ require("lazy").setup({
     {
         config = function()
     {
-        "nvim-telescope/telescope.nvim",
-        branch = "0.1.x",
-        dependencies = { "nvim-lua/plenary.nvim" },
-        event = "VeryLazy",
-        config = function()
-            require("telescope").setup({})
-            local telescope = require("telescope.builtin")
-            vim.keymap.set('n', "<Leader>ff", telescope.find_files, {})
-            vim.keymap.set('n', "<Leader>fg", telescope.live_grep, {})
-            vim.keymap.set('n', "<Leader>fb", telescope.buffers, {})
-            vim.keymap.set('n', "<Leader>fh", telescope.help_tags, {})
-        end
-    },
-
-    {
         "Skullamortis/forest.nvim",
         config = function()
             require("forest").setup({
