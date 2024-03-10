@@ -19,7 +19,7 @@ vim.o.showmode = false
 vim.o.undofile = true
 vim.o.inccommand = "split"
 
-vim.opt.clipboard:append("unnamedplus")
+-- vim.opt.clipboard:append("unnamedplus") -- FIXME: Doesn't work on Windows.
 vim.opt.shortmess:append('S')
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -269,5 +269,10 @@ vim.keymap.set('n', 'J', "<C-d>")
 vim.keymap.set('n', 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", "<cmd>nohlsearch<CR>")
 
+-- FIXME: This autocmd currently will blindly make any help file we open be on the right most window, which we sometimes don't want.
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "help" },
+    command = "wincmd L"
+})
 
 -- vim: ts=4 sts=4 sw=4 et
