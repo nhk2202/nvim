@@ -183,17 +183,8 @@ require("lazy").setup({
                     })
                 end
             },
-
-            {
-                "williamboman/mason-lspconfig.nvim",
-                config = function()
-                    require("mason-lspconfig").setup({
-                        ensure_installed = { "clangd", "lua_ls" }
-                    })
-                end
-            }
-
         },
+
         config = function()
             local lspconfig = require("lspconfig")
             lspconfig.clangd.setup({})
