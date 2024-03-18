@@ -1,7 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, "<Space>", "<Nop>", { silent = true })
-vim.keymap.set({ 'n', 'v' }, "<Leader>w", "<C-w>")
 
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -19,7 +18,7 @@ vim.o.showmode = false
 vim.o.undofile = true
 vim.o.inccommand = "split"
 
--- vim.opt.clipboard:append("unnamedplus") -- FIXME: Doesn't work on Windows.
+vim.opt.clipboard:append("unnamedplus") -- NOTE: (Windows only) Make sure win32yank.exe is in Path.
 vim.opt.shortmess:append('S')
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -115,6 +114,8 @@ require("lazy").setup({
             vim.keymap.set('n', "<Leader>h", pick.builtin.help, { desc = "Help" })
             vim.keymap.set('n', "<Leader>pb", pick.builtin.buffers, { desc = "Pick buffer" })
             vim.keymap.set('n', "<Leader>pp", pick.builtin.resume, { desc = "Resume last pick" })
+
+            require("mini.indentscope").setup({})
 
             require("mini.completion").setup({})
             vim.keymap.set('i', "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
@@ -258,21 +259,10 @@ require("lazy").setup({
     }
 })
 
--- vim.keymap.set('n', "<Leader>d", vim.diagnostic.open_float)
--- vim.keymap.set('n', "<Leader>D", vim.diagnostic.setloclist)
--- vim.keymap.set('n', "]d", vim.diagnostic.goto_next)
--- vim.keymap.set('n', "[d", vim.diagnostic.goto_prev)
-
 vim.keymap.set({ 'n', 'v' }, 'H', 'b')
 vim.keymap.set({ 'n', 'v' }, 'L', 'w')
 vim.keymap.set('n', 'J', "<C-d>")
 vim.keymap.set('n', 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", "<cmd>nohlsearch<CR>")
-
--- FIXME: This autocmd currently will blindly make any help file we open be on the right most window, which we sometimes don't want.
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "help" },
-    command = "wincmd L"
-})
 
 -- vim: ts=4 sts=4 sw=4 et
