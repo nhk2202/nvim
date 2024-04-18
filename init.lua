@@ -189,67 +189,51 @@ require("lazy").setup({
 						icons = {
 							package_installed = '✓',
 							package_uninstalled = '✗',
-							package_pending = '⟳'
-						}
-					},
-				}
-			},
-
-			{ "j-hui/fidget.nvim", opts = {} },
-
-			{ "folke/neodev.nvim", opts = {} },
-		},
-
-		config = function()
-			local lspconfig = require("lspconfig")
-			lspconfig.clangd.setup({})
-			lspconfig.lua_ls.setup({
-				settings = {
-					Lua = {
-						workspace = {
-							library = { vim.env.VIMRUNTIME }
+							package_pending = '…'
 						}
 					}
 				}
-			})
+			},
+
+			"williamboman/mason-lspconfig.nvim",
+
+			{ "folke/neodev.nvim", opts = {} }
+		},
+
+		config = function()
+			local lsp = vim.lsp
 			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("UserLspConfig", {}),
-				callback = function(ev)
-					vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-					local opts = function(desc)
-						return {
-							buffer = ev.buf,
-							desc = desc
-						}
-					end
-					vim.keymap.set('n', "<Leader>lD", vim.lsp.buf.declaration,
-						opts("Go to declaration"))
-					vim.keymap.set('n', "<Leader>ld", vim.lsp.buf.definition,
-						opts("Go to definition"))
-					vim.keymap.set('n', "<Leader>lh", vim.lsp.buf.hover,
-						opts("Show hover information"))
-					vim.keymap.set('n', "<Leader>li", vim.lsp.buf.implementation,
-						opts("Go to implementation"))
-					vim.keymap.set('n', "<Leader>ls", vim.lsp.buf.signature_help,
-						opts("Signature help"))
-					vim.keymap.set('n', "<Leader>l+", vim.lsp.buf.add_workspace_folder,
-						opts("Add workspace folder"))
-					vim.keymap.set('n', "<Leader>l-", vim.lsp.buf.remove_workspace_folder,
-						opts("Remove workspace folder"))
-					vim.keymap.set('n', "<Leader>ll", function()
-						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-					end, opts("List workspace folders"))
-					vim.keymap.set('n', "<Leader>lt", vim.lsp.buf.type_definition,
-						opts("Go to type definition"))
-					vim.keymap.set('n', "<Leader>lR", vim.lsp.buf.rename, opts("Rename buffer"))
-					vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
-						opts("Code action"))
-					vim.keymap.set('n', "<Leader>lr", vim.lsp.buf.references,
-						opts("List references"))
-					vim.keymap.set('n', "<Leader>lf", function()
-						vim.lsp.buf.format({ async = true })
-					end, opts("Format code"))
+				group = vim.api.nvim_create_augroup("MyLspConfig", {}),
+				callback = function(event)
+					vim.keymap.set('n', "<Leader>ld", lsp.buf.definition,
+					    { buffer = event.buf, desc = "Go to definition" })
+					vim.keymap.set('n', "<Leader>lD", lsp.buf.type_definition,
+					    { buffer = event.buf, desc = "Go to type definition" })
+					vim.keymap.set('n', "<Leader>lh", lsp.buf.hover,
+					    { buffer = event.buf, desc = "Show hover information" })
+					vim.keymap.set('n', "<Leader>li", lsp.buf.implementation,
+					    { buffer = event.buf, desc = "Go to implementation" })
+					vim.keymap.set('n', "<Leader>ln", lsp.buf.rename,
+					    { buffer = event.buf, desc = "Rename" })
+					vim.keymap.set({ 'n', 'v' }, "<Leader>la", lsp.buf.code_action,
+					    { buffer = event.buf, desc = "Code action" })
+					vim.keymap.set('n', "<Leader>lr", lsp.buf.references,
+					    { buffer = event.buf, desc = "Go to references" })
 				end
+			})
+
+			local servers = {
+				lua_ls = {},
+				clangd = {},
+			}
+
+			require("mason-lspconfig").setup({
+				ensure_installed = vim.tbl_keys(servers or {}),
+				handlers = {
+					function(server_name)
+						require("lspconfig")[server_name].setup(servers[server_name] or {})
+					end
+				}
 			})
 		end
 	}
