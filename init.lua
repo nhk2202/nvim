@@ -58,7 +58,7 @@ require("lazy").setup({
 					auto_setup = false
 				}
 			})
-			vim.keymap.set('i', '<M-j>',   [[pumvisible() ? "\<C-n>" : "\<M-j>"]],   { expr = true })
+			vim.keymap.set('i', '<M-j>', [[pumvisible() ? "\<C-n>" : "\<M-j>"]], { expr = true })
 			vim.keymap.set('i', '<M-k>', [[pumvisible() ? "\<C-p>" : "\<M-k>"]], { expr = true })
 
 			local hipatterns = require("mini.hipatterns")
