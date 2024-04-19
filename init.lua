@@ -18,7 +18,10 @@ vim.o.termguicolors = true
 vim.o.scrolloff = 10
 vim.o.showmode = false
 vim.o.showcmd = false
+vim.o.ruler = false
 vim.o.undofile = true
+vim.o.splitbelow = true
+vim.o.splitright = true
 
 vim.opt.clipboard:append("unnamedplus") -- NOTE: (WSL) Make sure win32yank.exe is in Path.
 vim.opt.shortmess:append('S')
