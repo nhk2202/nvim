@@ -41,11 +41,9 @@ require("lazy").setup({
 		"echasnovski/mini.nvim",
 		version = false,
 		config = function()
-			local ai = require("mini.ai")
-			ai.setup({})
+			-- require("mini.ai").setup({}) -- NOTE: Doesn't seem to do much out of the box.
 
-			local comment = require("mini.comment")
-			comment.setup({
+			require("mini.comment").setup({
 				options = {
 					ignore_blank_line = true
 				}
@@ -75,31 +73,33 @@ require("lazy").setup({
 
 			local hues = require("mini.hues")
 			math.randomseed(vim.loop.hrtime())
-			hues.setup(hues.gen_random_base_colors())
+			hues.setup(vim.tbl_extend("force", hues.gen_random_base_colors(), { saturation = "high" }))
 
-			local miniclue = require("mini.clue")
-			miniclue.setup({
+			local clue = require("mini.clue")
+			clue.setup({
 				triggers = {
 					{ mode = 'n', keys = "<Leader>" },
-					{ mode = 'v', keys = "<Leader>" }
+					{ mode = 'n', keys = "'"},
+					{ mode = 'n', keys = '`'},
+					{ mode = 'n', keys = '"'},
 				},
 
 				clues = {
 					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
+					{ mode = 'n', keys = "<Leader>pl", desc = "+List" },
 					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 					{ mode = 'n', keys = "<Leader>w", desc = "+Window" },
+					{ mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
+					clue.gen_clues.marks(),
+					clue.gen_clues.registers()
 				},
 
 				window = {
 					delay = 500,
-
-					scroll_down = "<A-j>",
-					scroll_up = "<A-k>"
 				}
 			})
 
-			local pairs = require("mini.pairs")
-			pairs.setup({})
+			require("mini.pairs").setup({})
 
 			local pick = require("mini.pick")
 			pick.setup({
