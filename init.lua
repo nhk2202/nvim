@@ -51,10 +51,14 @@ require("lazy").setup({
 				}
 			})
 
-			local completion = require("mini.completion")
-			completion.setup({})
-			vim.keymap.set('i', "<Tab>", [[pumvisible() ? "\<C-n>" : "\<Tab>"]], { expr = true })
-			vim.keymap.set('i', "<S-Tab>", [[pumvisible() ? "\<C-p>" : "\<S-Tab>"]], { expr = true })
+			require("mini.completion").setup({
+				lsp_completion = {
+					source_func = "omnifunc",
+					auto_setup = false
+				}
+			})
+			vim.keymap.set('i', '<M-j>',   [[pumvisible() ? "\<C-n>" : "\<M-j>"]],   { expr = true })
+			vim.keymap.set('i', '<M-k>', [[pumvisible() ? "\<C-p>" : "\<M-k>"]], { expr = true })
 
 			local hipatterns = require("mini.hipatterns")
 			hipatterns.setup({
@@ -66,6 +70,8 @@ require("lazy").setup({
 					hex_color = hipatterns.gen_highlighter.hex_color()
 				}
 			})
+
+			require("mini.extra").setup({})
 
 			local hues = require("mini.hues")
 			math.randomseed(vim.loop.hrtime())
@@ -98,27 +104,17 @@ require("lazy").setup({
 			local pick = require("mini.pick")
 			pick.setup({
 				mappings = {
-					caret_left = "<A-l>",
-					caret_right = "<A-h>",
-
-					choose_in_vsplit = "<A-s>",
-
-					mark = "<A-m>",
-					mark_all = "<A-a>",
-
 					move_down = "<A-j>",
 					move_up = "<A-k>",
-					move_start = "<A-g>",
-
 					scroll_down = "<A-J>",
 					scroll_up = "<A-K>",
-					scroll_left = "<A-L>",
-					scroll_right = "<A-H>",
 
 					refine = "<A-r>",
-					refine_marked = "<A-R>",
 
-					choose_marked = "<S-CR>"
+					-- FIXME: The keybindings below doesn't work.
+					-- choose_in_split = "<A-s>",
+					-- choose_in_vsplit = "<A-v>",
+					-- choose_in_tabpage = "<A-t>",
 				},
 
 				options = {
@@ -126,7 +122,7 @@ require("lazy").setup({
 				},
 
 				source = {
-					show = pick.default_show
+					show = pick.default_show,
 				},
 
 				window = {
@@ -143,26 +139,48 @@ require("lazy").setup({
 					end
 				}
 			})
-			vim.keymap.set('n', "<Leader>pf", pick.builtin.files, { desc = "Pick files " })
-			vim.keymap.set('n', "<Leader>pg", pick.builtin.grep_live, { desc = "Live grep" })
-			vim.keymap.set('n', "<Leader>h", pick.builtin.help, { desc = "Help" })
-			vim.keymap.set('n', "<Leader>pb", pick.builtin.buffers, { desc = "Pick buffer" })
-			vim.keymap.set('n', "<Leader>pp", pick.builtin.resume, { desc = "Resume last pick" })
+			vim.keymap.set('n', "<Leader>h", MiniPick.builtin.help, { desc = "Help" })
+			vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers, { desc = "Pick buffer" })
+			vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Pick files " })
+			vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live, { desc = "Live grep" })
+			vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume, { desc = "Resume last pick" })
+			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic, { desc = "Pick diagnostic" })
+			vim.keymap.set('n', "<Leader>pe", MiniExtra.pickers.explorer, { desc = "Explore file system" })
+			vim.keymap.set('n', "<Leader>ph", MiniExtra.pickers.history, { desc = "Pick history" })
+			vim.keymap.set('n', "<Leader>pH", MiniExtra.pickers.hipatterns, { desc = "Pick highlighted patterns" })
+			vim.keymap.set('n', "<Leader>plc", function()
+			    MiniExtra.pickers.list({ scope = "change" })
+			end, { desc = "Pick from change list" })
+			vim.keymap.set('n', "<Leader>plj", function()
+			    MiniExtra.pickers.list({ scope = "jump" })
+			end, { desc = "Pick from jump list" })
+			vim.keymap.set('n', "<Leader>pll", function()
+			    MiniExtra.pickers.list({ scope = "location" })
+			end, { desc = "Pick from location list" })
+			vim.keymap.set('n', "<Leader>plq", function()
+			    MiniExtra.pickers.list({ scope = "quickfix" })
+			end, { desc = "Pick from quickfix list" })
+			vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks, { desc = "Pick marks" })
+			vim.keymap.set('n', "<Leader>po", MiniExtra.pickers.oldfiles, { desc = "Pick oldfiles" })
+			vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers, { desc = "Pick registers" })
+			vim.keymap.set('n', "<Leader>ps", MiniExtra.pickers.spellsuggest, { desc = "Pick spelling suggestions" })
+			vim.keymap.set('n', "<Leader>pt", MiniExtra.pickers.treesitter, { desc = "Pick treesitter nodes" })
+			-- vim.keymap.set('n', "<Leader>pvp", MiniExtra.pickers.visit_paths, { desc = "Pick visit paths" })
+			-- vim.keymap.set('n', "<Leader>pvl", MiniExtra.pickers.visit_labels, { desc = "Pick visit labels" })
 
-			local statusline = require("mini.statusline")
-			statusline.setup({
+			require("mini.statusline").setup({
 				use_icons = false
 			})
 			---@diagnostic disable-next-line: duplicate-set-field
-			statusline.section_location = function()
+			MiniStatusline.section_location = function()
 				return ""
 			end
 
-			local surround = require("mini.surround")
-			surround.setup({})
+			require("mini.surround").setup({
+				respect_selection_type = true
+			})
 
-			local trailspace = require("mini.trailspace")
-			trailspace.setup({})
+			-- require("mini.trailspace").setup({})
 		end
 	},
 
@@ -201,24 +219,34 @@ require("lazy").setup({
 		},
 
 		config = function()
-			local lsp = vim.lsp
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("MyLspConfig", {}),
 				callback = function(event)
-					vim.keymap.set('n', "<Leader>ld", lsp.buf.definition,
-					    { buffer = event.buf, desc = "Go to definition" })
-					vim.keymap.set('n', "<Leader>lD", lsp.buf.type_definition,
-					    { buffer = event.buf, desc = "Go to type definition" })
-					vim.keymap.set('n', "<Leader>lh", lsp.buf.hover,
+					vim.bo[event.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
+					vim.keymap.set('n', "<Leader>ld", function()
+					    MiniExtra.pickers.lsp({ scope = "definition" })
+					end, { buffer = event.buf, desc = "Go to definition" })
+					vim.keymap.set('n', "<Leader>lD", function()
+						MiniExtra.pickers.lsp({ scope = "type_definition" })
+					end, { buffer = event.buf, desc = "Go to type definition" })
+					vim.keymap.set('n', "<Leader>li", function()
+						MiniExtra.pickers.lsp({ scope = "implementation" })
+					end, { buffer = event.buf, desc = "Go to implementation" })
+					vim.keymap.set('n', "<Leader>lr", function()
+						MiniExtra.pickers.lsp({ scope = "references" })
+					end, { buffer = event.buf, desc = "Go to references" })
+					vim.keymap.set('n', "<Leader>ls", function()
+						MiniExtra.pickers.lsp({ scope = "document_symbol" })
+					end, { buffer = event.buf, desc = "Go to symbol in file"})
+					vim.keymap.set('n', "<Leader>lS", function()
+						MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
+					end, { buffer = event.buf, desc = "Go to symbol in workspace"})
+					vim.keymap.set('n', "<Leader>l.", vim.lsp.buf.hover,
 					    { buffer = event.buf, desc = "Show hover information" })
-					vim.keymap.set('n', "<Leader>li", lsp.buf.implementation,
-					    { buffer = event.buf, desc = "Go to implementation" })
-					vim.keymap.set('n', "<Leader>ln", lsp.buf.rename,
+					vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename,
 					    { buffer = event.buf, desc = "Rename" })
-					vim.keymap.set({ 'n', 'v' }, "<Leader>la", lsp.buf.code_action,
+					vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
 					    { buffer = event.buf, desc = "Code action" })
-					vim.keymap.set('n', "<Leader>lr", lsp.buf.references,
-					    { buffer = event.buf, desc = "Go to references" })
 				end
 			})
 
