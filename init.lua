@@ -292,6 +292,10 @@ vim.keymap.set('n', 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", "<Cmd>nohlsearch<CR>")
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 
+vim.keymap.set('n', "g[", vim.diagnostic.goto_next)
+vim.keymap.set('n', "g]", vim.diagnostic.goto_prev)
+vim.keymap.set('n', "<Leader>d.", vim.diagnostic.open_float, { desc = "Show diagnostic errors" })
+
 vim.keymap.set('n', "<Leader>wn", "<C-w>n", { desc = "Create new window" })
 vim.keymap.set('n', "<Leader>wc", "<C-w>c", { desc = "Close window" })
 vim.keymap.set('n', "<Leader>wo", "<C-w>o", { desc = "Close other windows" })
