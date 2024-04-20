@@ -91,7 +91,6 @@ require("lazy").setup({
 
 				clues = {
 					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-					{ mode = 'n', keys = "<Leader>pl", desc = "+List" },
 					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 					{ mode = 'n', keys = "<Leader>w", desc = "+Window" },
 					{ mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
@@ -144,34 +143,16 @@ require("lazy").setup({
 					end
 				}
 			})
+			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic, { desc = "Pick diagnostic" })
 			vim.keymap.set('n', "<Leader>h", MiniPick.builtin.help, { desc = "Help" })
 			vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers, { desc = "Pick buffer" })
+			vim.keymap.set('n', "<Leader>pe", MiniExtra.pickers.explorer, { desc = "Explore file system" })
 			vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Pick files " })
 			vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live, { desc = "Live grep" })
 			vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume, { desc = "Resume last pick" })
-			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic, { desc = "Pick diagnostic" })
-			vim.keymap.set('n', "<Leader>pe", MiniExtra.pickers.explorer, { desc = "Explore file system" })
-			vim.keymap.set('n', "<Leader>ph", MiniExtra.pickers.history, { desc = "Pick history" })
-			vim.keymap.set('n', "<Leader>pH", MiniExtra.pickers.hipatterns, { desc = "Pick highlighted patterns" })
-			vim.keymap.set('n', "<Leader>plc", function()
-			    MiniExtra.pickers.list({ scope = "change" })
-			end, { desc = "Pick from change list" })
-			vim.keymap.set('n', "<Leader>plj", function()
-			    MiniExtra.pickers.list({ scope = "jump" })
-			end, { desc = "Pick from jump list" })
-			vim.keymap.set('n', "<Leader>pll", function()
-			    MiniExtra.pickers.list({ scope = "location" })
-			end, { desc = "Pick from location list" })
-			vim.keymap.set('n', "<Leader>plq", function()
-			    MiniExtra.pickers.list({ scope = "quickfix" })
-			end, { desc = "Pick from quickfix list" })
 			vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks, { desc = "Pick marks" })
-			vim.keymap.set('n', "<Leader>po", MiniExtra.pickers.oldfiles, { desc = "Pick oldfiles" })
-			vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers, { desc = "Pick registers" })
+			vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers, { desc = "Pick registers to paste" })
 			vim.keymap.set('n', "<Leader>ps", MiniExtra.pickers.spellsuggest, { desc = "Pick spelling suggestions" })
-			vim.keymap.set('n', "<Leader>pt", MiniExtra.pickers.treesitter, { desc = "Pick treesitter nodes" })
-			-- vim.keymap.set('n', "<Leader>pvp", MiniExtra.pickers.visit_paths, { desc = "Pick visit paths" })
-			-- vim.keymap.set('n', "<Leader>pvl", MiniExtra.pickers.visit_labels, { desc = "Pick visit labels" })
 
 			require("mini.statusline").setup({
 				use_icons = false
