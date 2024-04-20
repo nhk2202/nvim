@@ -44,7 +44,7 @@ require("lazy").setup({
 		"echasnovski/mini.nvim",
 		version = false,
 		config = function()
-			-- require("mini.ai").setup({}) -- NOTE: Doesn't seem to do much out of the box.
+			require("mini.bracketed").setup({})
 
 			require("mini.comment").setup({
 				options = {
@@ -82,6 +82,8 @@ require("lazy").setup({
 			clue.setup({
 				triggers = {
 					{ mode = 'n', keys = "<Leader>" },
+					{ mode = 'n', keys = '['},
+					{ mode = 'n', keys = ']'},
 					{ mode = 'n', keys = "'"},
 					{ mode = 'n', keys = '`'},
 					{ mode = 'n', keys = '"'},
@@ -183,7 +185,8 @@ require("lazy").setup({
 				respect_selection_type = true
 			})
 
-			-- require("mini.trailspace").setup({})
+			require("mini.trailspace").setup({})
+			vim.keymap.set('n', "ds", MiniTrailspace.trim)
 		end
 	},
 
@@ -295,8 +298,6 @@ vim.keymap.set('n', 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", "<Cmd>nohlsearch<CR>")
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 
-vim.keymap.set('n', "g[", vim.diagnostic.goto_next)
-vim.keymap.set('n', "g]", vim.diagnostic.goto_prev)
 vim.keymap.set('n', "<Leader>d.", vim.diagnostic.open_float, { desc = "Show diagnostic errors" })
 
 vim.keymap.set('n', "<Leader>wn", "<C-w>n", { desc = "Create new window" })
