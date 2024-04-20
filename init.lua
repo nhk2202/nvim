@@ -94,6 +94,7 @@ require("lazy").setup({
 					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 					{ mode = 'n', keys = "<Leader>w", desc = "+Window" },
 					{ mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
+					{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
 					clue.gen_clues.marks(),
 					clue.gen_clues.registers()
 				},
@@ -175,12 +176,35 @@ require("lazy").setup({
 		"lewis6991/gitsigns.nvim",
 		opts = {
 			signs = {
-				add = '+',
-				change = '~',
-				delete = '-',
-				topdelete = '^',
-				untracked = '?'
-			}
+				add       = { text = '+' },
+				change    = { text = '~' },
+				delete    = { text = '-' },
+				topdelete = { text = '^' },
+				untracked = { text = '?' }
+			},
+
+			base = '@',
+
+			on_attach = function(buf_number)
+				vim.keymap.set('n', "<Leader>gr", "<Cmd>Gitsigns refresh<CR>",
+				               { buffer = buf_number, desc = "Refresh buffer" })
+				vim.keymap.set('n', "]g", "<Cmd>Gitsigns nav_hunk next<CR>",
+				               { buffer = buf_number, desc = "Go to next hunk" })
+				vim.keymap.set('n', "[g", "<Cmd>Gitsigns nav_hunk prev<CR>",
+				               { buffer = buf_number, desc = "Go to previous hunk" })
+				vim.keymap.set('n', "]G", "<Cmd>Gitsigns nav_hunk last<CR>",
+				               { buffer = buf_number, desc = "Go to last hunk" })
+				vim.keymap.set('n', "[G", "<Cmd>Gitsigns nav_hunk first<CR>",
+				               { buffer = buf_number, desc = "Go to first hunk" })
+				vim.keymap.set('n', "<Leader>gb", "<Cmd>Gitsigns blame_line<CR>",
+				               { buffer = buf_number, desc = "Blame line" })
+				vim.keymap.set('n', "<Leader>gv", "<Cmd>Gitsigns select_hunk<CR>",
+				               { buffer = buf_number, desc = "Select hunk" })
+				vim.keymap.set('n', "<Leader>gd", "<Cmd>Gitsigns diffthis<CR>",
+				               { buffer = buf_number, desc = "Diff file" })
+				vim.keymap.set('n', "<Leader>g.", "<Cmd>Gitsigns preview_hunk<CR>",
+				               { buffer = buf_number, desc = "Preview hunk" })
+			end
 		}
 	},
 
