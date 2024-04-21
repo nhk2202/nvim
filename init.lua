@@ -114,12 +114,9 @@ require("lazy").setup({
 					scroll_down = "<A-J>",
 					scroll_up = "<A-K>",
 
-					refine = "<A-r>",
-
-					-- FIXME: The keybindings below doesn't work.
-					-- choose_in_split = "<A-s>",
-					-- choose_in_vsplit = "<A-v>",
-					-- choose_in_tabpage = "<A-t>",
+					choose_in_split = "<A-s>",
+					choose_in_vsplit = "<A-v>",
+					choose_in_tabpage = "<A-t>"
 				},
 
 				options = {
@@ -145,7 +142,15 @@ require("lazy").setup({
 				}
 			})
 			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic, { desc = "Pick diagnostic" })
-			vim.keymap.set('n', "<Leader>h", MiniPick.builtin.help, { desc = "Help" })
+			vim.keymap.set('n', "<Leader>h", function()
+				MiniPick.builtin.help({}, {
+					mappings = {
+						show_help_in_split = { char = "<A-s>" },
+						show_help_in_vsplit = { char = "<A-v>" },
+						show_help_in_tabpage = { char = "<A-t>" }
+					}
+				})
+			end, { desc = "Help" })
 			vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers, { desc = "Pick buffer" })
 			vim.keymap.set('n', "<Leader>pe", MiniExtra.pickers.explorer, { desc = "Explore file system" })
 			vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Pick files " })
