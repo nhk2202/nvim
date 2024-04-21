@@ -90,11 +90,11 @@ require("lazy").setup({
 				},
 
 				clues = {
-					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
-					{ mode = 'n', keys = "<Leader>w", desc = "+Window" },
 					{ mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
 					{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
+					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
+					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
+					{ mode = 'n', keys = "<Leader>w", desc = "+Window" },
 					clue.gen_clues.marks(),
 					clue.gen_clues.registers()
 				},
@@ -109,13 +109,13 @@ require("lazy").setup({
 			local pick = require("mini.pick")
 			pick.setup({
 				mappings = {
-					move_down = "<A-j>",
-					move_up = "<A-k>",
+					move_down   = "<A-j>",
+					move_up     = "<A-k>",
 					scroll_down = "<A-J>",
-					scroll_up = "<A-K>",
+					scroll_up   = "<A-K>",
 
-					choose_in_split = "<A-s>",
-					choose_in_vsplit = "<A-v>",
+					choose_in_split   = "<A-s>",
+					choose_in_vsplit  = "<A-v>",
 					choose_in_tabpage = "<A-t>"
 				},
 
@@ -141,24 +141,34 @@ require("lazy").setup({
 					end
 				}
 			})
-			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic, { desc = "Pick diagnostic" })
 			vim.keymap.set('n', "<Leader>h", function()
 				MiniPick.builtin.help({}, {
 					mappings = {
-						show_help_in_split = { char = "<A-s>" },
-						show_help_in_vsplit = { char = "<A-v>" },
+						show_help_in_split   = { char = "<A-s>" },
+						show_help_in_vsplit  = { char = "<A-v>" },
 						show_help_in_tabpage = { char = "<A-t>" }
 					}
 				})
 			end, { desc = "Help" })
-			vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers, { desc = "Pick buffer" })
-			vim.keymap.set('n', "<Leader>pe", MiniExtra.pickers.explorer, { desc = "Explore file system" })
-			vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Pick files " })
-			vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live, { desc = "Live grep" })
-			vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume, { desc = "Resume last pick" })
-			vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks, { desc = "Pick marks" })
-			vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers, { desc = "Pick registers to paste" })
-			vim.keymap.set('n', "<Leader>ps", MiniExtra.pickers.spellsuggest, { desc = "Pick spelling suggestions" })
+			-- TODO: Add custom actions to builtin pickers e.g delete buffer in MiniPick.builtin.buffer.
+			vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers,
+			{ desc = "Pick buffer" })
+			vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files,
+			               { desc = "Pick files " })
+			vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live,
+			               { desc = "Live grep" })
+			vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume,
+			               { desc = "Resume last pick" })
+			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic,
+			               { desc = "Pick diagnostic" })
+			vim.keymap.set('n', "<Leader>pe", MiniExtra.pickers.explorer,
+			               { desc = "Explore file system" })
+			vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks,
+			               { desc = "Pick marks" })
+			vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers,
+			               { desc = "Pick registers to paste" })
+			vim.keymap.set('n', "<Leader>ps", MiniExtra.pickers.spellsuggest,
+			               { desc = "Pick spelling suggestions" })
 
 			require("mini.statusline").setup({
 				use_icons = false
@@ -191,23 +201,24 @@ require("lazy").setup({
 			base = '@',
 
 			on_attach = function(buf_number)
-				vim.keymap.set('n', "<Leader>gr", "<Cmd>Gitsigns refresh<CR>",
+				local gitsigns = require("gitsigns")
+				vim.keymap.set('n', "<Leader>gr", gitsigns.refresh,
 				               { buffer = buf_number, desc = "Refresh buffer" })
-				vim.keymap.set('n', "]g", "<Cmd>Gitsigns nav_hunk next<CR>",
+				vim.keymap.set('n', "]g", function() gitsigns.nav_hunk("next") end,
 				               { buffer = buf_number, desc = "Go to next hunk" })
-				vim.keymap.set('n', "[g", "<Cmd>Gitsigns nav_hunk prev<CR>",
+				vim.keymap.set('n', "[g", function() gitsigns.nav_hunk("prev") end,
 				               { buffer = buf_number, desc = "Go to previous hunk" })
-				vim.keymap.set('n', "]G", "<Cmd>Gitsigns nav_hunk last<CR>",
+				vim.keymap.set('n', "]G", function() gitsigns.nav_hunk("last") end,
 				               { buffer = buf_number, desc = "Go to last hunk" })
-				vim.keymap.set('n', "[G", "<Cmd>Gitsigns nav_hunk first<CR>",
+				vim.keymap.set('n', "[G", function() gitsigns.nav_hunk("first") end,
 				               { buffer = buf_number, desc = "Go to first hunk" })
-				vim.keymap.set('n', "<Leader>gb", "<Cmd>Gitsigns blame_line<CR>",
+				vim.keymap.set('n', "<Leader>gb", gitsigns.blame_line,
 				               { buffer = buf_number, desc = "Blame line" })
-				vim.keymap.set('n', "<Leader>gv", "<Cmd>Gitsigns select_hunk<CR>",
+				vim.keymap.set('n', "<Leader>gv", gitsigns.select_hunk,
 				               { buffer = buf_number, desc = "Select hunk" })
-				vim.keymap.set('n', "<Leader>gd", "<Cmd>Gitsigns diffthis<CR>",
+				vim.keymap.set('n', "<Leader>gd", gitsigns.diffthis,
 				               { buffer = buf_number, desc = "Diff file" })
-				vim.keymap.set('n', "<Leader>gp", "<Cmd>Gitsigns preview_hunk<CR>",
+				vim.keymap.set('n', "<Leader>gg", gitsigns.preview_hunk,
 				               { buffer = buf_number, desc = "Preview hunk" })
 			end
 		}
@@ -257,12 +268,12 @@ require("lazy").setup({
 					vim.keymap.set('n', "<Leader>lS", function()
 						MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
 					end, { buffer = event.buf, desc = "Go to symbol in workspace"})
-					vim.keymap.set('n', "<Leader>lh", vim.lsp.buf.hover,
-					    { buffer = event.buf, desc = "Show hover information" })
+					vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover,
+					               { buffer = event.buf, desc = "Show hover information" })
 					vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename,
-					    { buffer = event.buf, desc = "Rename" })
+					               { buffer = event.buf, desc = "Rename" })
 					vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
-					    { buffer = event.buf, desc = "Code action" })
+					               { buffer = event.buf, desc = "Code action" })
 				end
 			})
 
@@ -318,3 +329,4 @@ vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move window left" })
 vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move window down" })
 vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move window up" })
 vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move window right" })
+
