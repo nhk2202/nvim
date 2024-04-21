@@ -44,6 +44,8 @@ require("lazy").setup({
 		"echasnovski/mini.nvim",
 		version = false,
 		config = function()
+			require("mini.align").setup({})
+
 			require("mini.bracketed").setup({})
 
 			require("mini.comment").setup({
@@ -74,6 +76,13 @@ require("lazy").setup({
 
 			require("mini.extra").setup({})
 
+			require("mini.files").setup({
+				content = {
+					prefix = function() end
+				}
+			})
+			vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "File" })
+
 			local hues = require("mini.hues")
 			math.randomseed(vim.loop.hrtime())
 			hues.setup(vim.tbl_extend("force", hues.gen_random_base_colors(), { saturation = "high" }))
@@ -103,6 +112,8 @@ require("lazy").setup({
 					delay = 500,
 				}
 			})
+
+			require("mini.notify").setup({})
 
 			require("mini.pairs").setup({})
 
@@ -184,6 +195,10 @@ require("lazy").setup({
 
 			require("mini.trailspace").setup({})
 			vim.keymap.set('n', "ds", MiniTrailspace.trim)
+
+			require("mini.visits").setup({})
+			vim.keymap.set('n', "<Leader>pv", MiniExtra.pickers.visit_paths,
+			               { desc = "Pick recent files" })
 		end
 	},
 
