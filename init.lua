@@ -58,8 +58,8 @@ require("lazy").setup({
 					auto_setup = false
 				}
 			})
-			vim.keymap.set('i', '<M-j>', [[pumvisible() ? "\<C-n>" : "\<M-j>"]], { expr = true })
-			vim.keymap.set('i', '<M-k>', [[pumvisible() ? "\<C-p>" : "\<M-k>"]], { expr = true })
+			vim.keymap.set('i', "<A-j>", [[pumvisible() ? "\<C-n>" : "\<A-j>"]], { expr = true })
+			vim.keymap.set('i', "<A-k>", [[pumvisible() ? "\<C-p>" : "\<A-k>"]], { expr = true })
 
 			local hipatterns = require("mini.hipatterns")
 			hipatterns.setup({
@@ -207,7 +207,7 @@ require("lazy").setup({
 				               { buffer = buf_number, desc = "Select hunk" })
 				vim.keymap.set('n', "<Leader>gd", "<Cmd>Gitsigns diffthis<CR>",
 				               { buffer = buf_number, desc = "Diff file" })
-				vim.keymap.set('n', "<Leader>g.", "<Cmd>Gitsigns preview_hunk<CR>",
+				vim.keymap.set('n', "<Leader>gp", "<Cmd>Gitsigns preview_hunk<CR>",
 				               { buffer = buf_number, desc = "Preview hunk" })
 			end
 		}
@@ -257,7 +257,7 @@ require("lazy").setup({
 					vim.keymap.set('n', "<Leader>lS", function()
 						MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
 					end, { buffer = event.buf, desc = "Go to symbol in workspace"})
-					vim.keymap.set('n', "<Leader>l.", vim.lsp.buf.hover,
+					vim.keymap.set('n', "<Leader>lh", vim.lsp.buf.hover,
 					    { buffer = event.buf, desc = "Show hover information" })
 					vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename,
 					    { buffer = event.buf, desc = "Rename" })
@@ -308,7 +308,7 @@ vim.keymap.set('n', 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", "<Cmd>nohlsearch<CR>")
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 
-vim.keymap.set('n', "<Leader>d.", vim.diagnostic.open_float, { desc = "Show diagnostic errors" })
+vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show diagnostic errors" })
 
 vim.keymap.set('n', "<Leader>wn", "<C-w>n", { desc = "Create new window" })
 vim.keymap.set('n', "<Leader>wc", "<C-w>c", { desc = "Close window" })
