@@ -109,7 +109,7 @@ require("lazy").setup({
 				},
 
 				window = {
-					delay = 500,
+					delay = 200
 				}
 			})
 
@@ -135,7 +135,7 @@ require("lazy").setup({
 				},
 
 				source = {
-					show = pick.default_show,
+					show = pick.default_show
 				},
 
 				window = {
@@ -147,7 +147,7 @@ require("lazy").setup({
 							height = height,
 							width = width,
 							row = math.floor(0.5 * (vim.o.lines - height)),
-							col = math.floor(0.5 * (vim.o.columns - width)),
+							col = math.floor(0.5 * (vim.o.columns - width))
 						}
 					end
 				}
@@ -172,14 +172,10 @@ require("lazy").setup({
 			               { desc = "Resume last pick" })
 			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic,
 			               { desc = "Pick diagnostic" })
-			vim.keymap.set('n', "<Leader>pe", MiniExtra.pickers.explorer,
-			               { desc = "Explore file system" })
 			vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks,
 			               { desc = "Pick marks" })
 			vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers,
-			               { desc = "Pick registers to paste" })
-			vim.keymap.set('n', "<Leader>ps", MiniExtra.pickers.spellsuggest,
-			               { desc = "Pick spelling suggestions" })
+			               { desc = "Pick registers contents" })
 
 			require("mini.statusline").setup({
 				use_icons = false
@@ -218,7 +214,7 @@ require("lazy").setup({
 			on_attach = function(buf_number)
 				local gitsigns = require("gitsigns")
 				vim.keymap.set('n', "<Leader>gr", gitsigns.refresh,
-				               { buffer = buf_number, desc = "Refresh buffer" })
+				               { buffer = buf_number, desc = "Refresh" })
 				vim.keymap.set('n', "]g", function() gitsigns.nav_hunk("next") end,
 				               { buffer = buf_number, desc = "Go to next hunk" })
 				vim.keymap.set('n', "[g", function() gitsigns.nav_hunk("prev") end,
@@ -228,11 +224,11 @@ require("lazy").setup({
 				vim.keymap.set('n', "[G", function() gitsigns.nav_hunk("first") end,
 				               { buffer = buf_number, desc = "Go to first hunk" })
 				vim.keymap.set('n', "<Leader>gb", gitsigns.blame_line,
-				               { buffer = buf_number, desc = "Blame line" })
+				               { buffer = buf_number, desc = "Blame" })
 				vim.keymap.set('n', "<Leader>gv", gitsigns.select_hunk,
 				               { buffer = buf_number, desc = "Select hunk" })
 				vim.keymap.set('n', "<Leader>gd", gitsigns.diffthis,
-				               { buffer = buf_number, desc = "Diff file" })
+				               { buffer = buf_number, desc = "Diff" })
 				vim.keymap.set('n', "<Leader>gg", gitsigns.preview_hunk,
 				               { buffer = buf_number, desc = "Preview hunk" })
 			end
@@ -294,7 +290,7 @@ require("lazy").setup({
 
 			local servers = {
 				lua_ls = {},
-				clangd = {},
+				clangd = {}
 			}
 
 			require("mason-lspconfig").setup({
@@ -310,19 +306,19 @@ require("lazy").setup({
 }, {
 	ui = {
 		icons = {
-			cmd = "⌘",
-			config = "🛠️",
-			event = "📅",
-			ft = "📂",
-			init = "🏁",
-			keys = "🔑",
-			plugin = "🔌",
+			cmd     = "⌘",
+			config  = "🛠️",
+			event   = "📅",
+			ft      = "📂",
+			init    = "🏁",
+			keys    = "🔑",
+			plugin  = "🔌",
 			runtime = "💻",
 			require = "🌙",
-			source = "📄",
-			start = "🚀",
-			task = "📌",
-			lazy = "💤 "
+			source  = "📄",
+			start   = "🚀",
+			task    = "📌",
+			lazy    = "💤 "
 		}
 	}
 })
