@@ -93,21 +93,17 @@ require("lazy").setup({
 			clue.setup({
 				triggers = {
 					{ mode = 'n', keys = "<Leader>" },
-					{ mode = 'n', keys = '['},
-					{ mode = 'n', keys = ']'},
-					{ mode = 'n', keys = "'"},
-					{ mode = 'n', keys = '`'},
 					{ mode = 'n', keys = '"'},
 				},
 
 				clues = {
+					clue.gen_clues.registers(),
+
 					{ mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
 					{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
 					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-					{ mode = 'n', keys = "<Leader>w", desc = "+Window" },
-					clue.gen_clues.marks(),
-					clue.gen_clues.registers()
+					{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
 				},
 
 				window = {
