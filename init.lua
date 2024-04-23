@@ -46,7 +46,9 @@ require("lazy").setup({
 		config = function()
 			require("mini.align").setup({})
 
-			require("mini.bracketed").setup({})
+			require("mini.bracketed").setup({
+				undo = { options = { wrap = false } }
+			})
 
 			require("mini.comment").setup({
 				options = {
@@ -329,6 +331,7 @@ vim.keymap.set('n', 'J', "<C-d>")
 vim.keymap.set('n', 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", "<Cmd>nohlsearch<CR>")
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
+vim.keymap.set('n', 'U', "<C-r>")
 
 vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show diagnostic errors" })
 
