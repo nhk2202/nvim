@@ -197,6 +197,10 @@ require("lazy").setup({
 			require("mini.visits").setup({})
 			vim.keymap.set('n', "<Leader>pv", MiniExtra.pickers.visit_paths,
 			               { desc = "Pick recent files" })
+			vim.keymap.set('n', "gv", MiniVisits.add_label)
+			vim.keymap.set('n', "gV", MiniVisits.remove_label)
+			vim.keymap.set('n', "<Leader>pV", MiniExtra.pickers.visit_labels,
+			               { desc = "Pick recent labels" })
 		end
 	},
 
