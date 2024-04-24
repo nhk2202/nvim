@@ -49,6 +49,18 @@ require("lazy").setup({
 			require("mini.bracketed").setup({
 				undo = { options = { wrap = false } }
 			})
+			vim.keymap.set('n', "]e", function()
+				MiniBracketed.diagnostic("forward", { severity = vim.diagnostic.severity.ERROR })
+			end)
+			vim.keymap.set('n', "[e", function()
+				MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
+			end)
+			vim.keymap.set('n', "]E", function()
+				MiniBracketed.diagnostic("first", { severity = vim.diagnostic.severity.ERROR })
+			end)
+			vim.keymap.set('n', "[E", function()
+				MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
+			end)
 
 			require("mini.comment").setup({
 				options = {
