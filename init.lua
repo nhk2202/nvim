@@ -83,7 +83,7 @@ require("lazy").setup({
 					prefix = function() end
 				}
 			})
-			vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "File" })
+			vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "Explore" })
 
 			local hues = require("mini.hues")
 			math.randomseed(vim.loop.hrtime())
@@ -329,11 +329,11 @@ vim.keymap.set({ 'n', 'v' }, 'H', 'b')
 vim.keymap.set({ 'n', 'v' }, 'L', 'w')
 vim.keymap.set('n', 'J', "<C-d>")
 vim.keymap.set('n', 'K', "<C-u>")
-vim.keymap.set('n', "<Esc>", "<Cmd>nohlsearch<CR>")
+vim.keymap.set('n', "<Esc>", vim.cmd.nohlsearch)
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
 
-vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show diagnostic errors" })
+vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show diagnostic" })
 
 vim.keymap.set('n', "<Leader>wn", "<C-w>n", { desc = "Create new window" })
 vim.keymap.set('n', "<Leader>wc", "<C-w>c", { desc = "Close window" })
