@@ -299,8 +299,9 @@ require("lazy").setup({
 					               { buffer = event.buf, desc = "Rename" })
 					vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
 					               { buffer = event.buf, desc = "Code action" })
-					vim.keymap.set({ 'n', 'v' }, "<Leader>lf", vim.lsp.buf.format,
-					               { async = true, buffer = event.buf, desc = "Format" })
+					vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
+						vim.lsp.buf.format({ async = true })
+					end, { buffer = event.buf, desc = "Format" })
 				end
 			})
 
