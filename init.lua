@@ -362,4 +362,3 @@ vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move window left" })
 vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move window down" })
 vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move window up" })
 vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move window right" })
-
