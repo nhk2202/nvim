@@ -342,8 +342,8 @@ require("lazy").setup({
 
 vim.keymap.set({ 'n', 'v' }, 'H', 'b')
 vim.keymap.set({ 'n', 'v' }, 'L', 'w')
-vim.keymap.set('n', 'J', "<C-d>")
-vim.keymap.set('n', 'K', "<C-u>")
+vim.keymap.set({ 'n', 'v' }, 'J', "<C-d>")
+vim.keymap.set({ 'n', 'v' }, 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", vim.cmd.nohlsearch)
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
