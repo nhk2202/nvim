@@ -350,7 +350,8 @@ vim.keymap.set('n', 'U', "<C-r>")
 
 vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show diagnostic" })
 
-vim.keymap.set('n', "<Leader>wn", "<C-w>n", { desc = "Create new window" })
+vim.keymap.set('n', "<Leader>ws", vim.cmd.new, { desc = "New window below" })
+vim.keymap.set('n', "<Leader>wv", vim.cmd.vnew, { desc = "New window right" })
 vim.keymap.set('n', "<Leader>wc", "<C-w>c", { desc = "Close window" })
 vim.keymap.set('n', "<Leader>wo", "<C-w>o", { desc = "Close other windows" })
 vim.keymap.set('n', "<Leader>ww", "<C-w>w", { desc = "Focus other window" })
