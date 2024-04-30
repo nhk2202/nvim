@@ -111,6 +111,7 @@ require("lazy").setup({
 				clues = {
 					clue.gen_clues.registers(),
 
+					{ mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
 					{ mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
 					{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
 					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
@@ -172,8 +173,8 @@ require("lazy").setup({
 				})
 			end, { desc = "Help" })
 			-- TODO: Add custom actions to builtin pickers e.g delete buffer in MiniPick.builtin.buffer.
-			vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers,
-			{ desc = "Pick buffer" })
+			vim.keymap.set('n', "<Leader>bp", MiniPick.builtin.buffers,
+			{ desc = "Pick" })
 			vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files,
 			               { desc = "Pick files " })
 			vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live,
@@ -349,6 +350,9 @@ vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
 
 vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show diagnostic" })
+
+vim.keymap.set('n', "<Leader>bs", vim.cmd.write, { desc = "Save" })
+vim.keymap.set('n', "<Leader>bd", vim.cmd.bdelete, { desc = "Delete" })
 
 vim.keymap.set('n', "<Leader>ws", vim.cmd.new, { desc = "New window below" })
 vim.keymap.set('n', "<Leader>wv", vim.cmd.vnew, { desc = "New window right" })
