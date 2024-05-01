@@ -177,17 +177,17 @@ require("lazy").setup({
 			vim.keymap.set('n', "<Leader>bp", MiniPick.builtin.buffers,
 			{ desc = "Pick" })
 			vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files,
-			               { desc = "Pick files " })
+			               { desc = "Files" })
 			vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live,
-			               { desc = "Live grep" })
+			               { desc = "Grep" })
 			vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume,
-			               { desc = "Resume last pick" })
+			               { desc = "Resume" })
 			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic,
-			               { desc = "Pick diagnostic" })
+			               { desc = "Pick" })
 			vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks,
-			               { desc = "Pick marks" })
+			               { desc = "Marks" })
 			vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers,
-			               { desc = "Pick registers contents" })
+			               { desc = "Registers" })
 
 			require("mini.statusline").setup({
 				use_icons = false
@@ -220,11 +220,7 @@ require("lazy").setup({
 
 			require("mini.visits").setup({})
 			vim.keymap.set('n', "<Leader>pv", MiniExtra.pickers.visit_paths,
-			               { desc = "Pick recent files" })
-			vim.keymap.set('n', "gv", MiniVisits.add_label)
-			vim.keymap.set('n', "gV", MiniVisits.remove_label)
-			vim.keymap.set('n', "<Leader>pV", MiniExtra.pickers.visit_labels,
-			               { desc = "Pick recent labels" })
+			               { desc = "Recent" })
 		end
 	},
 
@@ -246,13 +242,13 @@ require("lazy").setup({
 				vim.keymap.set('n', "<Leader>gr", gitsigns.refresh,
 				               { buffer = buf_number, desc = "Refresh" })
 				vim.keymap.set('n', "]g", function() gitsigns.nav_hunk("next") end,
-				               { buffer = buf_number, desc = "Go to next hunk" })
+				               { buffer = buf_number, desc = "Next hunk" })
 				vim.keymap.set('n', "[g", function() gitsigns.nav_hunk("prev") end,
-				               { buffer = buf_number, desc = "Go to previous hunk" })
+				               { buffer = buf_number, desc = "Previous hunk" })
 				vim.keymap.set('n', "]G", function() gitsigns.nav_hunk("last") end,
-				               { buffer = buf_number, desc = "Go to last hunk" })
+				               { buffer = buf_number, desc = "Last hunk" })
 				vim.keymap.set('n', "[G", function() gitsigns.nav_hunk("first") end,
-				               { buffer = buf_number, desc = "Go to first hunk" })
+				               { buffer = buf_number, desc = "First hunk" })
 				vim.keymap.set('n', "<Leader>gb", gitsigns.blame_line,
 				               { buffer = buf_number, desc = "Blame" })
 				vim.keymap.set('n', "<Leader>gv", gitsigns.select_hunk,
@@ -293,28 +289,28 @@ require("lazy").setup({
 					vim.bo[event.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
 					vim.keymap.set('n', "<Leader>ld", function()
 					    MiniExtra.pickers.lsp({ scope = "definition" })
-					end, { buffer = event.buf, desc = "Go to definition" })
+					end, { buffer = event.buf, desc = "Definition" })
 					vim.keymap.set('n', "<Leader>lD", function()
 						MiniExtra.pickers.lsp({ scope = "type_definition" })
-					end, { buffer = event.buf, desc = "Go to type definition" })
+					end, { buffer = event.buf, desc = "Type definition" })
 					vim.keymap.set('n', "<Leader>li", function()
 						MiniExtra.pickers.lsp({ scope = "implementation" })
-					end, { buffer = event.buf, desc = "Go to implementation" })
+					end, { buffer = event.buf, desc = "Implementation" })
 					vim.keymap.set('n', "<Leader>lr", function()
 						MiniExtra.pickers.lsp({ scope = "references" })
-					end, { buffer = event.buf, desc = "Go to references" })
+					end, { buffer = event.buf, desc = "References" })
 					vim.keymap.set('n', "<Leader>ls", function()
 						MiniExtra.pickers.lsp({ scope = "document_symbol" })
-					end, { buffer = event.buf, desc = "Go to symbol in file"})
+					end, { buffer = event.buf, desc = "Symbols in file"})
 					vim.keymap.set('n', "<Leader>lS", function()
 						MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
-					end, { buffer = event.buf, desc = "Go to symbol in workspace"})
+					end, { buffer = event.buf, desc = "Symbols in workspace"})
 					vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover,
-					               { buffer = event.buf, desc = "Show hover information" })
+					               { buffer = event.buf, desc = "Information" })
 					vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename,
 					               { buffer = event.buf, desc = "Rename" })
 					vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
-					               { buffer = event.buf, desc = "Code action" })
+					               { buffer = event.buf, desc = "Action" })
 					vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
 						vim.lsp.buf.format({ async = true })
 					end, { buffer = event.buf, desc = "Format" })
@@ -364,21 +360,21 @@ vim.keymap.set('n', "<Esc>", vim.cmd.nohlsearch)
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
 
-vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show diagnostic" })
+vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show" })
 
 vim.keymap.set('n', "<Leader>bs", vim.cmd.write, { desc = "Save" })
 vim.keymap.set('n', "<Leader>bd", vim.cmd.bdelete, { desc = "Delete" })
 
-vim.keymap.set('n', "<Leader>ws", vim.cmd.new, { desc = "New window below" })
-vim.keymap.set('n', "<Leader>wv", vim.cmd.vnew, { desc = "New window right" })
-vim.keymap.set('n', "<Leader>wc", "<C-w>c", { desc = "Close window" })
-vim.keymap.set('n', "<Leader>wo", "<C-w>o", { desc = "Close other windows" })
-vim.keymap.set('n', "<Leader>ww", "<C-w>w", { desc = "Focus other window" })
-vim.keymap.set('n', "<Leader>wh", "<C-w>h", { desc = "Focus left window" })
-vim.keymap.set('n', "<Leader>wj", "<C-w>j", { desc = "Focus window below" })
-vim.keymap.set('n', "<Leader>wk", "<C-w>k", { desc = "Focus window above" })
-vim.keymap.set('n', "<Leader>wl", "<C-w>l", { desc = "Focus right window" })
-vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move window left" })
-vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move window down" })
-vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move window up" })
-vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move window right" })
+vim.keymap.set('n', "<Leader>ws", vim.cmd.new, { desc = "Split" })
+vim.keymap.set('n', "<Leader>wv", vim.cmd.vnew, { desc = "Split vertically" })
+vim.keymap.set('n', "<Leader>wc", "<C-w>c", { desc = "Close" })
+vim.keymap.set('n', "<Leader>wo", "<C-w>o", { desc = "Close others" })
+vim.keymap.set('n', "<Leader>ww", "<C-w>w", { desc = "Focus other" })
+vim.keymap.set('n', "<Leader>wh", "<C-w>h", { desc = "Focus left" })
+vim.keymap.set('n', "<Leader>wj", "<C-w>j", { desc = "Focus below" })
+vim.keymap.set('n', "<Leader>wk", "<C-w>k", { desc = "Focus above" })
+vim.keymap.set('n', "<Leader>wl", "<C-w>l", { desc = "Focus right" })
+vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move left" })
+vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move down" })
+vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move up" })
+vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move right" })
