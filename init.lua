@@ -116,6 +116,7 @@ require("lazy").setup({
 					{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
 					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
+					{ mode = 'n', keys = "<Leader>s", desc = "+Session"},
 					{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
 				},
 
@@ -195,6 +196,20 @@ require("lazy").setup({
 			MiniStatusline.section_location = function()
 				return ""
 			end
+
+			require("mini.sessions").setup({
+				autoread = true,
+				autowrite = false,
+				force = {
+					delete = true
+				}
+			})
+			vim.keymap.set('n', "<Leader>ss", function()
+				MiniSessions.write("Session.vim")
+			end, { desc = "Write" })
+			vim.keymap.set('n', "<Leader>sd", function()
+				MiniSessions.delete()
+			end, { desc = "Delete" })
 
 			require("mini.surround").setup({
 				respect_selection_type = true
