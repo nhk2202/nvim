@@ -352,6 +352,14 @@ require("lazy").setup({
 	}
 })
 
+vim.api.nvim_create_autocmd("BufRead", {
+	group = vim.api.nvim_create_augroup("MyFiletypeConfig", {}),
+	pattern = "*.c,*.h,*.cc,*.hh,*.cpp,*.hpp",
+	callback = function(event)
+		vim.bo[event.buf].commentstring = "// %s"
+	end
+})
+
 vim.keymap.set({ 'n', 'v' }, 'H', 'b')
 vim.keymap.set({ 'n', 'v' }, 'L', 'w')
 vim.keymap.set({ 'n', 'v' }, 'J', "<C-d>")
