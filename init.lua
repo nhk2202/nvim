@@ -117,6 +117,7 @@ require("lazy").setup({
 					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
 					{ mode = 'n', keys = "<Leader>s", desc = "+Session"},
+					{ mode = 'n', keys = "<Leader>t", desc = "+Tab" },
 					{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
 				},
 
@@ -386,3 +387,9 @@ vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move left" })
 vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move down" })
 vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move up" })
 vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move right" })
+
+vim.keymap.set('n', "<Leader>tn", vim.cmd.tabnew, { desc = "New" })
+vim.keymap.set('n', "<Leader>tc", vim.cmd.tabclose, { desc = "Close" })
+vim.keymap.set('n', "<Leader>to", vim.cmd.tabonly, { desc = "Close others" })
+vim.keymap.set('n', "<Tab>", vim.cmd.tabnext)
+vim.keymap.set('n', "<S-Tab>", vim.cmd.tabprevious)
