@@ -368,7 +368,7 @@ vim.api.nvim_create_autocmd("BufRead", {
 		vim.bo[event.buf].keymap = "vietnamese-telex_utf-8"
 		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i<C-^><ESC>", true, false, true),
 		                      'n',
-							  true)
+		                      true)
 	end
 })
 vim.keymap.set('i', "<M-i>", "<C-^>")
