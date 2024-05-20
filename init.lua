@@ -362,13 +362,15 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-	group = vim.api.nvim_create_augroup("MyGlobalBufferConfig", {}),
+	group = vim.api.nvim_create_augroup("MyModifiableBufferConfig", {}),
 	pattern = "*",
 	callback = function(event)
-		vim.bo[event.buf].keymap = "vietnamese-telex_utf-8"
-		vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i<C-^><ESC>", true, false, true),
-		                      'n',
-		                      true)
+		if vim.bo[event.buf].modifiable then
+			vim.bo[event.buf].keymap = "vietnamese-telex_utf-8"
+			vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i<C-^><ESC>", true, false, true),
+			                      'n',
+			                      true)
+		end
 	end
 })
 vim.keymap.set('i', "<M-i>", "<C-^>")
