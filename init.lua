@@ -236,8 +236,6 @@ require("lazy").setup({
 				untracked = { text = '?' }
 			},
 
-			base = '@',
-
 			on_attach = function(buf_number)
 				local gitsigns = require("gitsigns")
 				vim.keymap.set('n', "<Leader>gr", gitsigns.refresh,
