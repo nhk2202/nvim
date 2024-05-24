@@ -140,7 +140,9 @@ require("lazy").setup({
 
 					choose_in_split   = "<A-s>",
 					choose_in_vsplit  = "<A-v>",
-					choose_in_tabpage = "<A-t>"
+					choose_in_tabpage = "<A-t>",
+
+					refine = "<A-r>"
 				},
 
 				options = {
