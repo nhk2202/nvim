@@ -60,45 +60,6 @@ require("lazy").setup({
 				MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
 			end)
 
-			require("mini.comment").setup({
-				options = {
-					ignore_blank_line = true
-				}
-			})
-
-			require("mini.completion").setup({
-				lsp_completion = {
-					source_func = "omnifunc",
-					auto_setup = false
-				}
-			})
-			vim.keymap.set('i', "<A-j>", [[pumvisible() ? "\<C-n>" : "\<A-j>"]], { expr = true })
-			vim.keymap.set('i', "<A-k>", [[pumvisible() ? "\<C-p>" : "\<A-k>"]], { expr = true })
-
-			local hipatterns = require("mini.hipatterns")
-			hipatterns.setup({
-				highlighters = {
-					fixme     = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
-					hack      = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
-					todo      = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
-					note      = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
-					hex_color = hipatterns.gen_highlighter.hex_color()
-				}
-			})
-
-			require("mini.extra").setup({})
-
-			require("mini.files").setup({
-				content = {
-					prefix = function() end
-				}
-			})
-			vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "Explore" })
-
-			local hues = require("mini.hues")
-			math.randomseed(vim.loop.hrtime())
-			hues.setup(vim.tbl_extend("force", hues.gen_random_base_colors(), { saturation = "high" }))
-
 			local clue = require("mini.clue")
 			clue.setup({
 				triggers = {
@@ -114,7 +75,6 @@ require("lazy").setup({
 					{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
 					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-					{ mode = 'n', keys = "<Leader>s", desc = "+Session"},
 					{ mode = 'n', keys = "<Leader>t", desc = "+Tab" },
 					{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
 				},
@@ -123,6 +83,49 @@ require("lazy").setup({
 					delay = 200
 				}
 			})
+
+			require("mini.comment").setup({
+				options = {
+					ignore_blank_line = true
+				}
+			})
+
+			require("mini.completion").setup({
+				lsp_completion = {
+					source_func = "omnifunc",
+					auto_setup = false
+				}
+			})
+			vim.keymap.set('i', "<A-j>", [[pumvisible() ? "\<C-n>" : "\<A-j>"]], { expr = true })
+			vim.keymap.set('i', "<A-k>", [[pumvisible() ? "\<C-p>" : "\<A-k>"]], { expr = true })
+
+				}
+			})
+
+			require("mini.extra").setup({})
+
+			require("mini.files").setup({
+				content = {
+					prefix = function() end
+				}
+			})
+			vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "Explore" })
+
+
+			local hipatterns = require("mini.hipatterns")
+			hipatterns.setup({
+				highlighters = {
+					fixme     = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+					hack      = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+					todo      = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+					note      = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+					hex_color = hipatterns.gen_highlighter.hex_color()
+				}
+			})
+
+			local hues = require("mini.hues")
+			math.randomseed(vim.loop.hrtime())
+			hues.setup(vim.tbl_extend("force", hues.gen_random_base_colors(), { saturation = "high" }))
 
 			require("mini.notify").setup({})
 
