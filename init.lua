@@ -200,20 +200,6 @@ require("lazy").setup({
 				return ""
 			end
 
-			require("mini.sessions").setup({
-				autoread = true,
-				autowrite = false,
-				force = {
-					delete = true
-				}
-			})
-			vim.keymap.set('n', "<Leader>ss", function()
-				MiniSessions.write("Session.vim")
-			end, { desc = "Write" })
-			vim.keymap.set('n', "<Leader>sd", function()
-				MiniSessions.delete()
-			end, { desc = "Delete" })
-
 			require("mini.surround").setup({
 				respect_selection_type = true
 			})
