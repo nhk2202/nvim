@@ -212,41 +212,6 @@ require("lazy").setup({
 	},
 
 	{
-		"lewis6991/gitsigns.nvim",
-		opts = {
-			signs = {
-				add       = { text = '+' },
-				change    = { text = '~' },
-				delete    = { text = '-' },
-				topdelete = { text = '^' },
-				untracked = { text = '?' }
-			},
-
-			on_attach = function(buf_number)
-				local gitsigns = require("gitsigns")
-				vim.keymap.set('n', "<Leader>gr", gitsigns.refresh,
-				               { buffer = buf_number, desc = "Refresh" })
-				vim.keymap.set('n', "]g", function() gitsigns.nav_hunk("next") end,
-				               { buffer = buf_number, desc = "Next hunk" })
-				vim.keymap.set('n', "[g", function() gitsigns.nav_hunk("prev") end,
-				               { buffer = buf_number, desc = "Previous hunk" })
-				vim.keymap.set('n', "]G", function() gitsigns.nav_hunk("last") end,
-				               { buffer = buf_number, desc = "Last hunk" })
-				vim.keymap.set('n', "[G", function() gitsigns.nav_hunk("first") end,
-				               { buffer = buf_number, desc = "First hunk" })
-				vim.keymap.set('n', "<Leader>gb", gitsigns.blame_line,
-				               { buffer = buf_number, desc = "Blame" })
-				vim.keymap.set('n', "<Leader>gv", gitsigns.select_hunk,
-				               { buffer = buf_number, desc = "Select hunk" })
-				vim.keymap.set('n', "<Leader>gd", gitsigns.diffthis,
-				               { buffer = buf_number, desc = "Diff" })
-				vim.keymap.set('n', "<Leader>gg", gitsigns.preview_hunk,
-				               { buffer = buf_number, desc = "Preview hunk" })
-			end
-		}
-	},
-
-	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{
