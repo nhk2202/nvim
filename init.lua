@@ -208,9 +208,6 @@ require("lazy").setup({
 			require("mini.trailspace").setup({})
 			vim.keymap.set('n', "ds", MiniTrailspace.trim)
 
-			require("mini.visits").setup({})
-			vim.keymap.set('n', "<Leader>pv", MiniExtra.pickers.visit_paths,
-			               { desc = "Recent" })
 		end
 	},
 
