@@ -99,8 +99,17 @@ require("lazy").setup({
 			vim.keymap.set('i', "<A-j>", [[pumvisible() ? "\<C-n>" : "\<A-j>"]], { expr = true })
 			vim.keymap.set('i', "<A-k>", [[pumvisible() ? "\<C-p>" : "\<A-k>"]], { expr = true })
 
+			require("mini.diff").setup({
+				view = {
+					style = "sign",
+					signs = {
+						add = '+',
+						change = '~',
+						delete = '-'
+					}
 				}
 			})
+			vim.keymap.set('n', "<Leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 
 			require("mini.extra").setup({})
 
@@ -111,6 +120,12 @@ require("lazy").setup({
 			})
 			vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "Explore" })
 
+			require("mini.git").setup({
+				command = {
+					split = "vertical"
+				}
+			})
+			vim.keymap.set('n', "<Leader>gg", MiniGit.show_at_cursor, { desc = "Show git data" })
 
 			local hipatterns = require("mini.hipatterns")
 			hipatterns.setup({
