@@ -44,8 +44,6 @@ require("lazy").setup({
 		"echasnovski/mini.nvim",
 		version = false,
 		config = function()
-			require("mini.align").setup({})
-
 			require("mini.bracketed").setup({
 				undo = { options = { wrap = false } }
 			})
