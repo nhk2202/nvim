@@ -126,9 +126,7 @@ require("lazy").setup({
 					split = "vertical"
 				}
 			})
-			vim.keymap.set('n', "<Leader>gg", function()
-				MiniGit.show_at_cursor({ split = "vertical" })
-			end, { desc = "Show git data" })
+			vim.keymap.set('n', "<Leader>gg", MiniGit.show_at_cursor, { desc = "Show git data" })
 
 			local hipatterns = require("mini.hipatterns")
 			hipatterns.setup({
