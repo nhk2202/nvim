@@ -223,7 +223,6 @@ require("lazy").setup({
 
 			require("mini.trailspace").setup({})
 			vim.keymap.set('n', "ds", MiniTrailspace.trim)
-
 		end
 	},
 
@@ -247,7 +246,6 @@ require("lazy").setup({
 
 			{ "folke/neodev.nvim", opts = {} }
 		},
-
 		config = function()
 			vim.api.nvim_create_autocmd("LspAttach", {
 				group = vim.api.nvim_create_augroup("MyLspConfig", {}),
