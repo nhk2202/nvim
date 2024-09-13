@@ -69,6 +69,7 @@ require("lazy").setup({
 				},
 
 				clues = {
+					clue.gen_clues.marks(),
 					clue.gen_clues.registers(),
 
 					{ mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
@@ -223,7 +224,7 @@ require("lazy").setup({
 
 			require("mini.trailspace").setup({})
 			vim.keymap.set('n', "ds", MiniTrailspace.trim)
-
+			vim.keymap.set('n', "dl", MiniTrailspace.trim_last_lines)
 		end
 	},
 
