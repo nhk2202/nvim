@@ -229,6 +229,22 @@ require("lazy").setup({
 			end
 		},
 
+
+		{
+			"folke/lazydev.nvim",
+			ft = "lua",
+			opts = {
+				integrations = {
+					cmp = false
+				},
+				library = {
+					{ path = "luvit-meta/library", words = { "vim%.uv" } }
+				}
+			}
+		},
+
+		{ "Bilal2453/luvit-meta", lazy = true },
+
 		{
 			"neovim/nvim-lspconfig",
 			dependencies = {
@@ -246,22 +262,6 @@ require("lazy").setup({
 				},
 
 				"williamboman/mason-lspconfig.nvim",
-
-				{
-					"folke/lazydev.nvim",
-					ft = "lua",
-					opts = {
-						integrations = {
-							cmp = false
-						},
-						library = {
-							{ path = "luvit-meta/library", words = { "vim%.uv" } }
-						}
-					}
-				},
-
-				{ "Bilal2453/luvit-meta", lazy = true }
-
 			},
 			config = function()
 				vim.api.nvim_create_autocmd("LspAttach", {
@@ -302,6 +302,8 @@ require("lazy").setup({
 					lua_ls = {},
 					clangd = {}
 				}
+
+				require("mason").setup({})
 
 				require("mason-lspconfig").setup({
 					ensure_installed = vim.tbl_keys(servers or {}),
