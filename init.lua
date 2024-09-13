@@ -27,295 +27,313 @@ vim.opt.clipboard:append("unnamedplus") -- NOTE: (WSL) Make sure win32yank.exe i
 vim.opt.shortmess:append('S')
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-	vim.fn.system({
-		"git",
-		"clone",
-		"--filter=blob:none",
-		"https://github.com/folke/lazy.nvim.git",
-		"--branch=stable",
-		lazypath
-	})
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out, "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+		vim.fn.getchar()
+		os.exit(1)
+	end
 end
----@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	{
-		"echasnovski/mini.nvim",
-		version = false,
-		config = function()
-			require("mini.bracketed").setup({
-				undo = { options = { wrap = false } }
-			})
-			vim.keymap.set('n', "]e", function()
-				MiniBracketed.diagnostic("forward", { severity = vim.diagnostic.severity.ERROR })
-			end)
-			vim.keymap.set('n', "[e", function()
-				MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
-			end)
-			vim.keymap.set('n', "]E", function()
-				MiniBracketed.diagnostic("first", { severity = vim.diagnostic.severity.ERROR })
-			end)
-			vim.keymap.set('n', "[E", function()
-				MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
-			end)
+	spec = {
+		{
+			"echasnovski/mini.nvim",
+			version = false,
+			config = function()
+				require("mini.bracketed").setup({
+					undo = { options = { wrap = false } }
+				})
+				vim.keymap.set('n', "]e", function()
+					MiniBracketed.diagnostic("forward", { severity = vim.diagnostic.severity.ERROR })
+				end)
+				vim.keymap.set('n', "[e", function()
+					MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
+				end)
+				vim.keymap.set('n', "]E", function()
+					MiniBracketed.diagnostic("first", { severity = vim.diagnostic.severity.ERROR })
+				end)
+				vim.keymap.set('n', "[E", function()
+					MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
+				end)
 
-			local clue = require("mini.clue")
-			clue.setup({
-				triggers = {
-					{ mode = 'n', keys = "<Leader>" },
-					{ mode = 'n', keys = '"'},
-				},
+				local clue = require("mini.clue")
+				clue.setup({
+					triggers = {
+						{ mode = 'n', keys = "<Leader>" },
+						{ mode = 'n', keys = '"'},
+					},
 
-				clues = {
-					clue.gen_clues.marks(),
-					clue.gen_clues.registers(),
+					clues = {
+						clue.gen_clues.marks(),
+						clue.gen_clues.registers(),
 
-					{ mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
-					{ mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
-					{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
-					{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
-					{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-					{ mode = 'n', keys = "<Leader>t", desc = "+Tab" },
-					{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
-				},
+						{ mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
+						{ mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
+						{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
+						{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
+						{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
+						{ mode = 'n', keys = "<Leader>t", desc = "+Tab" },
+						{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
+					},
 
-				window = {
-					delay = 200
-				}
-			})
-
-			require("mini.comment").setup({
-				options = {
-					ignore_blank_line = true
-				}
-			})
-
-			require("mini.completion").setup({
-				lsp_completion = {
-					source_func = "omnifunc",
-					auto_setup = false
-				}
-			})
-			vim.keymap.set('i', "<A-j>", [[pumvisible() ? "\<C-n>" : "\<A-j>"]], { expr = true })
-			vim.keymap.set('i', "<A-k>", [[pumvisible() ? "\<C-p>" : "\<A-k>"]], { expr = true })
-
-			require("mini.diff").setup({
-				view = {
-					style = "sign",
-					signs = {
-						add = '+',
-						change = '~',
-						delete = '-'
-					}
-				}
-			})
-			vim.keymap.set('n', "<Leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
-
-			require("mini.extra").setup({})
-
-			require("mini.files").setup({
-				content = {
-					prefix = function() end
-				}
-			})
-			vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "Explore" })
-
-			require("mini.git").setup({
-				command = {
-					split = "vertical"
-				}
-			})
-			vim.keymap.set('n', "<Leader>gg", MiniGit.show_at_cursor, { desc = "Show git data" })
-
-			local hipatterns = require("mini.hipatterns")
-			hipatterns.setup({
-				highlighters = {
-					fixme     = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
-					hack      = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
-					todo      = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
-					note      = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
-					hex_color = hipatterns.gen_highlighter.hex_color()
-				}
-			})
-
-			local hues = require("mini.hues")
-			math.randomseed(vim.loop.hrtime())
-			hues.setup(vim.tbl_extend("force", hues.gen_random_base_colors(), { saturation = "high" }))
-
-			require("mini.notify").setup({})
-
-			require("mini.pairs").setup({})
-
-			local pick = require("mini.pick")
-			pick.setup({
-				mappings = {
-					move_down   = "<A-j>",
-					move_up     = "<A-k>",
-					scroll_down = "<A-J>",
-					scroll_up   = "<A-K>",
-
-					choose_in_split   = "<A-s>",
-					choose_in_vsplit  = "<A-v>",
-					choose_in_tabpage = "<A-t>",
-
-					refine = "<A-r>"
-				},
-
-				options = {
-					use_cache = true
-				},
-
-				source = {
-					show = pick.default_show
-				},
-
-				window = {
-					config = function()
-						local height = math.floor(0.618 * vim.o.lines)
-						local width = math.floor(0.618 * vim.o.columns)
-						return {
-							anchor = 'NW',
-							height = height,
-							width = width,
-							row = math.floor(0.5 * (vim.o.lines - height)),
-							col = math.floor(0.5 * (vim.o.columns - width))
-						}
-					end
-				}
-			})
-			vim.keymap.set('n', "<Leader>h", function()
-				MiniPick.builtin.help({}, {
-					mappings = {
-						show_help_in_split   = { char = "<A-s>" },
-						show_help_in_vsplit  = { char = "<A-v>" },
-						show_help_in_tabpage = { char = "<A-t>" }
+					window = {
+						delay = 200
 					}
 				})
-			end, { desc = "Help" })
-			-- TODO: Add custom actions to builtin pickers e.g delete buffer in MiniPick.builtin.buffer.
-			vim.keymap.set('n', "<Leader>bp", MiniPick.builtin.buffers,
-			{ desc = "Pick" })
-			vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files,
-			               { desc = "Files" })
-			vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live,
-			               { desc = "Grep" })
-			vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume,
-			               { desc = "Resume" })
-			vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic,
-			               { desc = "Pick" })
-			vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks,
-			               { desc = "Marks" })
-			vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers,
-			               { desc = "Registers" })
 
-			require("mini.statusline").setup({
-				use_icons = false
-			})
-			---@diagnostic disable-next-line: duplicate-set-field
-			MiniStatusline.section_location = function()
-				return ""
-			end
+				require("mini.comment").setup({
+					options = {
+						ignore_blank_line = true
+					}
+				})
 
-			require("mini.surround").setup({
-				respect_selection_type = true
-			})
+				require("mini.completion").setup({
+					lsp_completion = {
+						source_func = "omnifunc",
+						auto_setup = false
+					}
+				})
+				vim.keymap.set('i', "<A-j>", [[pumvisible() ? "\<C-n>" : "\<A-j>"]], { expr = true })
+				vim.keymap.set('i', "<A-k>", [[pumvisible() ? "\<C-p>" : "\<A-k>"]], { expr = true })
 
-			require("mini.trailspace").setup({})
-			vim.keymap.set('n', "ds", MiniTrailspace.trim)
-			vim.keymap.set('n', "dl", MiniTrailspace.trim_last_lines)
-		end
-	},
-
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			{
-				"williamboman/mason.nvim",
-				opts = {
-					ui = {
-						icons = {
-							package_installed = '✓',
-							package_uninstalled = '✗',
-							package_pending = '…'
+				require("mini.diff").setup({
+					view = {
+						style = "sign",
+						signs = {
+							add = '+',
+							change = '~',
+							delete = '-'
 						}
 					}
-				}
-			},
+				})
+				vim.keymap.set('n', "<Leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 
-			"williamboman/mason-lspconfig.nvim",
+				require("mini.extra").setup({})
 
-			{ "folke/neodev.nvim", opts = {} }
+				require("mini.files").setup({
+					content = {
+						prefix = function() end
+					}
+				})
+				vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "Explore" })
+
+				require("mini.git").setup({
+					command = {
+						split = "vertical"
+					}
+				})
+				vim.keymap.set('n', "<Leader>gg", MiniGit.show_at_cursor, { desc = "Show git data" })
+
+				local hipatterns = require("mini.hipatterns")
+				hipatterns.setup({
+					highlighters = {
+						fixme     = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
+						hack      = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
+						todo      = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
+						note      = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
+						hex_color = hipatterns.gen_highlighter.hex_color()
+					}
+				})
+
+				local hues = require("mini.hues")
+				math.randomseed(vim.uv.hrtime())
+				hues.setup(vim.tbl_extend("force", hues.gen_random_base_colors(), { saturation = "high" }))
+
+				require("mini.notify").setup({})
+
+				require("mini.pairs").setup({})
+
+				local pick = require("mini.pick")
+				pick.setup({
+					mappings = {
+						move_down   = "<A-j>",
+						move_up     = "<A-k>",
+						scroll_down = "<A-J>",
+						scroll_up   = "<A-K>",
+
+						choose_in_split   = "<A-s>",
+						choose_in_vsplit  = "<A-v>",
+						choose_in_tabpage = "<A-t>",
+
+						refine = "<A-r>"
+					},
+
+					options = {
+						use_cache = true
+					},
+
+					source = {
+						show = pick.default_show
+					},
+
+					window = {
+						config = function()
+							local height = math.floor(0.618 * vim.o.lines)
+							local width = math.floor(0.618 * vim.o.columns)
+							return {
+								anchor = 'NW',
+								height = height,
+								width = width,
+								row = math.floor(0.5 * (vim.o.lines - height)),
+								col = math.floor(0.5 * (vim.o.columns - width))
+							}
+						end
+					}
+				})
+				vim.keymap.set('n', "<Leader>h", function()
+					MiniPick.builtin.help({}, {
+						mappings = {
+							show_help_in_split   = { char = "<A-s>" },
+							show_help_in_vsplit  = { char = "<A-v>" },
+							show_help_in_tabpage = { char = "<A-t>" }
+						}
+					})
+				end, { desc = "Help" })
+				-- TODO: Add custom actions to builtin pickers e.g delete buffer in MiniPick.builtin.buffer.
+				vim.keymap.set('n', "<Leader>bp", MiniPick.builtin.buffers,
+				{ desc = "Pick" })
+				vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files,
+			               	{ desc = "Files" })
+				vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live,
+			               	{ desc = "Grep" })
+				vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume,
+			               	{ desc = "Resume" })
+				vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic,
+			               	{ desc = "Pick" })
+				vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks,
+			               	{ desc = "Marks" })
+				vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers,
+			               	{ desc = "Registers" })
+
+				require("mini.statusline").setup({
+					use_icons = false
+				})
+				---@diagnostic disable-next-line: duplicate-set-field
+				MiniStatusline.section_location = function()
+					return ""
+				end
+
+				require("mini.surround").setup({
+					respect_selection_type = true
+				})
+
+				require("mini.trailspace").setup({})
+				vim.keymap.set('n', "ds", MiniTrailspace.trim)
+			end
 		},
 
-		config = function()
-			vim.api.nvim_create_autocmd("LspAttach", {
-				group = vim.api.nvim_create_augroup("MyLspConfig", {}),
-				callback = function(event)
-					vim.bo[event.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
-					vim.keymap.set('n', "<Leader>ld", function()
-					    MiniExtra.pickers.lsp({ scope = "definition" })
-					end, { buffer = event.buf, desc = "Definition" })
-					vim.keymap.set('n', "<Leader>lD", function()
-						MiniExtra.pickers.lsp({ scope = "type_definition" })
-					end, { buffer = event.buf, desc = "Type definition" })
-					vim.keymap.set('n', "<Leader>li", function()
-						MiniExtra.pickers.lsp({ scope = "implementation" })
-					end, { buffer = event.buf, desc = "Implementation" })
-					vim.keymap.set('n', "<Leader>lr", function()
-						MiniExtra.pickers.lsp({ scope = "references" })
-					end, { buffer = event.buf, desc = "References" })
-					vim.keymap.set('n', "<Leader>ls", function()
-						MiniExtra.pickers.lsp({ scope = "document_symbol" })
-					end, { buffer = event.buf, desc = "Symbols in file"})
-					vim.keymap.set('n', "<Leader>lS", function()
-						MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
-					end, { buffer = event.buf, desc = "Symbols in workspace"})
-					vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover,
-					               { buffer = event.buf, desc = "Information" })
-					vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename,
-					               { buffer = event.buf, desc = "Rename" })
-					vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
-					               { buffer = event.buf, desc = "Action" })
-					vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
-						vim.lsp.buf.format({ async = true })
-					end, { buffer = event.buf, desc = "Format" })
-				end
-			})
 
-			local servers = {
-				lua_ls = {},
-				clangd = {}
-			}
-
-			require("mason-lspconfig").setup({
-				ensure_installed = vim.tbl_keys(servers or {}),
-				handlers = {
-					function(server_name)
-						require("lspconfig")[server_name].setup(servers[server_name] or {})
-					end
+		{
+			"folke/lazydev.nvim",
+			ft = "lua",
+			opts = {
+				integrations = {
+					cmp = false
+				},
+				library = {
+					{ path = "luvit-meta/library", words = { "vim%.uv" } }
 				}
-			})
-		end
-	}
-}, {
+			}
+		},
+
+		{ "Bilal2453/luvit-meta", lazy = true },
+
+		{
+			"neovim/nvim-lspconfig",
+			dependencies = {
+				{
+					"williamboman/mason.nvim",
+					opts = {
+						ui = {
+							icons = {
+								package_installed = '✓',
+								package_uninstalled = '✗',
+								package_pending = '…'
+							}
+						}
+					}
+				},
+
+				"williamboman/mason-lspconfig.nvim",
+			},
+			config = function()
+				vim.api.nvim_create_autocmd("LspAttach", {
+					group = vim.api.nvim_create_augroup("MyLspConfig", {}),
+					callback = function(event)
+						vim.bo[event.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
+						vim.keymap.set('n', "<Leader>ld", function()
+					    	MiniExtra.pickers.lsp({ scope = "definition" })
+						end, { buffer = event.buf, desc = "Definition" })
+						vim.keymap.set('n', "<Leader>lD", function()
+							MiniExtra.pickers.lsp({ scope = "type_definition" })
+						end, { buffer = event.buf, desc = "Type definition" })
+						vim.keymap.set('n', "<Leader>li", function()
+							MiniExtra.pickers.lsp({ scope = "implementation" })
+						end, { buffer = event.buf, desc = "Implementation" })
+						vim.keymap.set('n', "<Leader>lr", function()
+							MiniExtra.pickers.lsp({ scope = "references" })
+						end, { buffer = event.buf, desc = "References" })
+						vim.keymap.set('n', "<Leader>ls", function()
+							MiniExtra.pickers.lsp({ scope = "document_symbol" })
+						end, { buffer = event.buf, desc = "Symbols in file"})
+						vim.keymap.set('n', "<Leader>lS", function()
+							MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
+						end, { buffer = event.buf, desc = "Symbols in workspace"})
+						vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover,
+					               	{ buffer = event.buf, desc = "Information" })
+						vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename,
+					               	{ buffer = event.buf, desc = "Rename" })
+						vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
+					               	{ buffer = event.buf, desc = "Action" })
+						vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
+							vim.lsp.buf.format({ async = true })
+						end, { buffer = event.buf, desc = "Format" })
+					end
+				})
+
+				local servers = {
+					lua_ls = {},
+					clangd = {}
+				}
+
+				require("mason").setup({})
+
+				require("mason-lspconfig").setup({
+					ensure_installed = vim.tbl_keys(servers or {}),
+					handlers = {
+						function(server_name)
+							require("lspconfig")[server_name].setup(servers[server_name] or {})
+						end
+					}
+				})
+			end
+		}
+	},
+
 	ui = {
 		icons = {
-			cmd     = "⌘",
-			config  = "🛠️",
-			event   = "📅",
-			ft      = "📂",
-			init    = "🏁",
-			keys    = "🔑",
-			plugin  = "🔌",
+			cmd = "⌘",
+			config = "🛠",
+			event = "📅",
+			ft = "📂",
+			init = "⚙",
+			keys = "🗝",
+			plugin = "🔌",
 			runtime = "💻",
 			require = "🌙",
-			source  = "📄",
-			start   = "🚀",
-			task    = "📌",
-			lazy    = "💤 "
-		}
+			source = "📄",
+			start = "🚀",
+			task = "📌",
+			lazy = "💤 ",
+		},
 	}
 })
 
