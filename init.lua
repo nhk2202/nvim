@@ -19,7 +19,6 @@ vim.o.scrolloff = 10
 vim.o.showmode = false
 vim.o.showcmd = false
 vim.o.ruler = false
-vim.o.undofile = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 
@@ -116,7 +115,7 @@ require("lazy").setup({
 				})
 				vim.keymap.set('n', "<Leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 
-				require("mini.extra").setup({})
+				require("mini.extra").setup()
 
 				require("mini.files").setup({
 					content = {
@@ -147,9 +146,9 @@ require("lazy").setup({
 				math.randomseed(vim.uv.hrtime())
 				hues.setup(vim.tbl_extend("force", hues.gen_random_base_colors(), { saturation = "high" }))
 
-				require("mini.notify").setup({})
+				require("mini.notify").setup()
 
-				require("mini.pairs").setup({})
+				require("mini.pairs").setup()
 
 				local pick = require("mini.pick")
 				pick.setup({
@@ -225,7 +224,7 @@ require("lazy").setup({
 					respect_selection_type = true
 				})
 
-				require("mini.trailspace").setup({})
+				require("mini.trailspace").setup()
 				vim.keymap.set('n', "ds", MiniTrailspace.trim)
 			end
 		},
@@ -304,7 +303,7 @@ require("lazy").setup({
 					clangd = {}
 				}
 
-				require("mason").setup({})
+				require("mason").setup()
 
 				require("mason-lspconfig").setup({
 					ensure_installed = vim.tbl_keys(servers or {}),
