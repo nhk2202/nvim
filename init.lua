@@ -199,18 +199,12 @@ require("lazy").setup({
 				-- TODO: Add custom actions to builtin pickers e.g delete buffer in MiniPick.builtin.buffer.
 				vim.keymap.set('n', "<Leader>bp", MiniPick.builtin.buffers,
 				{ desc = "Pick" })
-				vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files,
-			               	{ desc = "Files" })
-				vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live,
-			               	{ desc = "Grep" })
-				vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume,
-			               	{ desc = "Resume" })
-				vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic,
-			               	{ desc = "Pick" })
-				vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks,
-			               	{ desc = "Marks" })
-				vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers,
-			               	{ desc = "Registers" })
+				vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Files" })
+				vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live, { desc = "Grep" })
+				vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume, { desc = "Resume" })
+				vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic, { desc = "Pick" })
+				vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks, { desc = "Marks" })
+				vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers, { desc = "Registers" })
 
 				require("mini.statusline").setup({
 					use_icons = false
@@ -269,7 +263,7 @@ require("lazy").setup({
 					callback = function(event)
 						vim.bo[event.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
 						vim.keymap.set('n', "<Leader>ld", function()
-					    	MiniExtra.pickers.lsp({ scope = "definition" })
+							MiniExtra.pickers.lsp({ scope = "definition" })
 						end, { buffer = event.buf, desc = "Definition" })
 						vim.keymap.set('n', "<Leader>lD", function()
 							MiniExtra.pickers.lsp({ scope = "type_definition" })
@@ -286,12 +280,9 @@ require("lazy").setup({
 						vim.keymap.set('n', "<Leader>lS", function()
 							MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
 						end, { buffer = event.buf, desc = "Symbols in workspace"})
-						vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover,
-					               	{ buffer = event.buf, desc = "Information" })
-						vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename,
-					               	{ buffer = event.buf, desc = "Rename" })
-						vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
-					               	{ buffer = event.buf, desc = "Action" })
+						vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = event.buf, desc = "Information" })
+						vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = event.buf, desc = "Rename" })
+						vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action, { buffer = event.buf, desc = "Action" })
 						vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
 							vim.lsp.buf.format({ async = true })
 						end, { buffer = event.buf, desc = "Format" })
@@ -304,7 +295,6 @@ require("lazy").setup({
 				}
 
 				require("mason").setup()
-
 				require("mason-lspconfig").setup({
 					ensure_installed = vim.tbl_keys(servers or {}),
 					handlers = {
@@ -350,9 +340,7 @@ vim.api.nvim_create_autocmd("BufRead", {
 	callback = function(event)
 		if vim.bo[event.buf].modifiable then
 			vim.bo[event.buf].keymap = "vietnamese-telex_utf-8"
-			vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i<C-^><ESC>", true, false, true),
-			                      'n',
-			                      true)
+			vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i<C-^><ESC>", true, false, true), 'n', true)
 		end
 	end
 })
