@@ -234,14 +234,9 @@ require("lazy").setup({
 			opts = {
 				integrations = {
 					cmp = false
-				},
-				library = {
-					{ path = "luvit-meta/library", words = { "vim%.uv" } }
 				}
 			}
 		},
-
-		{ "Bilal2453/luvit-meta", lazy = true },
 
 		{
 			"neovim/nvim-lspconfig",
