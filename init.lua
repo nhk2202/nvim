@@ -142,10 +142,6 @@ require("lazy").setup({
 					}
 				})
 
-				local hues = require("mini.hues")
-				math.randomseed(vim.uv.hrtime())
-				hues.setup(vim.tbl_extend("force", hues.gen_random_base_colors(), { saturation = "high" }))
-
 				require("mini.notify").setup()
 
 				require("mini.pairs").setup()
@@ -223,6 +219,14 @@ require("lazy").setup({
 			end
 		},
 
+		{
+			"zenbones-theme/zenbones.nvim",
+			lazy = false,
+			priority = 1000,
+			init = function()
+				vim.g.bones_compat = 1
+			end
+		},
 
 		{
 			"folke/lazydev.nvim",
@@ -325,6 +329,8 @@ require("lazy").setup({
 		},
 	}
 })
+
+vim.cmd.colorscheme("zenwritten")
 
 vim.api.nvim_create_autocmd("BufRead", {
 	group = vim.api.nvim_create_augroup("MyFiletypeConfig", {}),
