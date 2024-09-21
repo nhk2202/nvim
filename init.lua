@@ -82,7 +82,6 @@ require("lazy").setup({
 						{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
 						{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 						{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-						{ mode = 'n', keys = "<Leader>t", desc = "+Tab" },
 						{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
 					},
 
@@ -161,7 +160,6 @@ require("lazy").setup({
 
 						choose_in_split   = "<A-s>",
 						choose_in_vsplit  = "<A-v>",
-						choose_in_tabpage = "<A-t>",
 
 						refine = "<A-r>"
 					},
@@ -193,7 +191,6 @@ require("lazy").setup({
 						mappings = {
 							show_help_in_split   = { char = "<A-s>" },
 							show_help_in_vsplit  = { char = "<A-v>" },
-							show_help_in_tabpage = { char = "<A-t>" }
 						}
 					})
 				end, { desc = "Help" })
@@ -350,13 +347,11 @@ vim.api.nvim_create_autocmd("BufRead", {
 		end
 	end
 })
-vim.keymap.set('i', "<M-i>", "<C-^>")
+vim.keymap.set('i', "<A-i>", "<C-^>")
 
-vim.keymap.set({ 'n', 'v' }, 'H', 'b')
-vim.keymap.set({ 'n', 'v' }, 'L', 'w')
-vim.keymap.set({ 'n', 'v' }, 'J', "<C-d>")
-vim.keymap.set({ 'n', 'v' }, 'K', "<C-u>")
 vim.keymap.set('n', "<Esc>", vim.cmd.nohlsearch)
+vim.keymap.set('n', 'J', "<C-d>")
+vim.keymap.set('n', 'K', "<C-u>")
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
 
@@ -378,9 +373,3 @@ vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move left" })
 vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move down" })
 vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move up" })
 vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move right" })
-
-vim.keymap.set('n', "<Leader>tn", vim.cmd.tabnew, { desc = "New" })
-vim.keymap.set('n', "<Leader>tc", vim.cmd.tabclose, { desc = "Close" })
-vim.keymap.set('n', "<Leader>to", vim.cmd.tabonly, { desc = "Close others" })
-vim.keymap.set('n', "<Tab>", vim.cmd.tabnext)
-vim.keymap.set('n', "<S-Tab>", vim.cmd.tabprevious)
