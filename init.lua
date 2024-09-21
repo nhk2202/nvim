@@ -69,6 +69,8 @@ require("lazy").setup({
 					triggers = {
 						{ mode = 'n', keys = "<Leader>" },
 						{ mode = 'n', keys = '"'},
+						{ mode = 'n', keys = "'" },
+						{ mode = 'n', keys = '`' },
 					},
 
 					clues = {
@@ -85,7 +87,9 @@ require("lazy").setup({
 					},
 
 					window = {
-						delay = 200
+						delay = 200,
+						scroll_down = "<A-j>",
+						scroll_up = "<A-k>"
 					}
 				})
 
