@@ -82,6 +82,7 @@ require("lazy").setup({
 						{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
 						{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 						{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
+						{ mode = 'n', keys = "<Leader>t", desc = "+VimTeX" },
 						{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
 					},
 
@@ -223,10 +224,47 @@ require("lazy").setup({
 
 		{
 			"zenbones-theme/zenbones.nvim",
-			lazy = false,
-			priority = 1000,
 			init = function()
 				vim.g.bones_compat = 1
+			end
+		},
+
+		{
+			"lervag/vimtex",
+			lazy = false,
+			init = function()
+				vim.g.vimtex_view_method = "sioyek"
+				vim.g.vimtex_mappings_prefix = "<LocalLeader>t"
+				vim.g.vimtex_compiler_latexmk = {
+					aux_dir = "./aux",
+					out_dir = "./out",
+					options = {
+						"-emulate-aux-dir",
+						"-verbose",
+						"-file-line-error",
+						"-synctex=1",
+						"-interaction=nonstopmode"
+					}
+				}
+				vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
+				vim.keymap.set('n', "<LocalLeader>ti", "<plug>(vimtex-info)", { desc = "Info" })
+				vim.keymap.set('n', "<LocalLeader>tI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
+				vim.keymap.set('n', "<LocalLeader>td", "<plug>(vimtex-doc-package)", { desc = "Documentation" })
+				vim.keymap.set('n', "<LocalLeader>tt", "<plug>(vimtex-toc-toggle)", { desc = "Toggle toc" })
+				vim.keymap.set('n', "<LocalLeader>tl", "<plug>(vimtex-log)", { desc = "Log" })
+				vim.keymap.set('n', "<LocalLeader>tv", "<plug>(vimtex-view)", { desc = "View pdf" })
+				vim.keymap.set('n', "<LocalLeader>tc", "<plug>(vimtex-compile)", { desc = "Compile" })
+				vim.keymap.set('n', "<LocalLeader>tC", "<plug>(vimtex-compile-selected)", { desc = "Compile selected" })
+				vim.keymap.set('n', "<LocalLeader>tk", "<plug>(vimtex-stop)", { desc = "Stop" })
+				vim.keymap.set('n', "<LocalLeader>tK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
+				vim.keymap.set('n', "<LocalLeader>te", "<plug>(vimtex-errors)", { desc = "Errors" })
+				vim.keymap.set('n', "<LocalLeader>to", "<plug>(vimtex-compile-output)", { desc = "Compile output" })
+				vim.keymap.set('n', "<LocalLeader>ts", "<plug>(vimtex-status)", { desc = "Status" })
+				vim.keymap.set('n', "<LocalLeader>tS", "<plug>(vimtex-status-all)", { desc = "Status (full)" })
+				vim.keymap.set('n', "<LocalLeader>tx", "<plug>(vimtex-clean)", { desc = "Clean" })
+				vim.keymap.set('n', "<LocalLeader>tX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
+				vim.keymap.set('n', "<LocalLeader>ta", "<plug>(vimtex-context-menu)", { desc = "Action" })
+				vim.keymap.set('n', "<LocalLeader>tm", "<plug>(vimtex-imaps-list)", { desc = "List imaps" })
 			end
 		},
 
@@ -292,12 +330,13 @@ require("lazy").setup({
 
 				local servers = {
 					lua_ls = {},
-					clangd = {}
+					clangd = {},
+					texlab = {}
 				}
 
 				require("mason").setup()
 				require("mason-lspconfig").setup({
-					ensure_installed = vim.tbl_keys(servers or {}),
+					ensure_installed = { "lua_ls", "clangd" },
 					handlers = {
 						function(server_name)
 							require("lspconfig")[server_name].setup(servers[server_name] or {})
