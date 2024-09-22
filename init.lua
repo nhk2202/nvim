@@ -14,7 +14,6 @@ vim.o.mouse = 'a'
 vim.o.ignorecase = true
 vim.o.smartcase = true
 vim.o.completeopt = "menuone,preview,noselect"
-vim.o.termguicolors = true
 vim.o.scrolloff = 10
 vim.o.showmode = false
 vim.o.showcmd = false
