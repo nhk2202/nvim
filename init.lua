@@ -234,9 +234,13 @@ require("lazy").setup({
 		},
 
 		{
-			"zenbones-theme/zenbones.nvim",
-			init = function()
-				vim.g.bones_compat = 1
+			"sainnhe/everforest",
+			config = function()
+				vim.g.everforest_enable_italic = 1
+				vim.g.everforest_dim_inactive_windows = 1
+				vim.g.everforest_ui_contrast = "high"
+				vim.g.everforest_better_performance = 1
+				vim.cmd.colorscheme("everforest")
 			end
 		},
 
@@ -376,8 +380,6 @@ require("lazy").setup({
 		},
 	}
 })
-
-vim.cmd.colorscheme("zenwritten")
 
 vim.api.nvim_create_autocmd("BufRead", {
 	group = vim.api.nvim_create_augroup("MyFiletypeConfig", {}),
