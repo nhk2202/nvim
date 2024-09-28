@@ -238,7 +238,6 @@ require("lazy").setup({
 			config = function()
 				vim.g.everforest_enable_italic = 1
 				vim.g.everforest_dim_inactive_windows = 1
-				vim.g.everforest_ui_contrast = "high"
 				vim.g.everforest_better_performance = 1
 				vim.cmd.colorscheme("everforest")
 			end
