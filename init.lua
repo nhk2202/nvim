@@ -243,7 +243,6 @@ require("lazy").setup({
 			"lervag/vimtex",
 			lazy = false,
 			init = function()
-				vim.g.vimtex_view_method = "sioyek"
 				vim.g.vimtex_mappings_prefix = "<LocalLeader>t"
 				vim.g.vimtex_compiler_latexmk = {
 					aux_dir = "./aux",
@@ -341,7 +340,13 @@ require("lazy").setup({
 				local servers = {
 					lua_ls = {},
 					clangd = {},
-					texlab = {}
+					texlab = {
+						settings = {
+							texlab = {
+								formatterLineLength = 100
+							}
+						}
+					}
 				}
 
 				require("mason").setup()
