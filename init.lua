@@ -109,15 +109,6 @@ require("lazy").setup({
 					}
 				})
 
-				require("mini.completion").setup({
-					lsp_completion = {
-						source_func = "omnifunc",
-						auto_setup = false
-					}
-				})
-				vim.keymap.set('i', "<A-j>", [[pumvisible() ? "\<C-n>" : "\<A-j>"]], { expr = true })
-				vim.keymap.set('i', "<A-k>", [[pumvisible() ? "\<C-p>" : "\<A-k>"]], { expr = true })
-
 				require("mini.diff").setup({
 					view = {
 						style = "sign",
