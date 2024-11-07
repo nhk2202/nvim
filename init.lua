@@ -7,6 +7,7 @@ vim.wo.relativenumber = true
 vim.wo.wrap = false
 vim.wo.colorcolumn = "100"
 
+vim.o.termguicolors = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 0
 vim.o.cursorline = true
@@ -234,12 +235,12 @@ require("lazy").setup({
 		},
 
 		{
-			"sainnhe/everforest",
+			"zenbones-theme/zenbones.nvim",
+			lazy = false,
+			priority = 1000,
 			config = function()
-				vim.g.everforest_enable_italic = 1
-				vim.g.everforest_dim_inactive_windows = 1
-				vim.g.everforest_better_performance = 1
-				vim.cmd.colorscheme("everforest")
+				vim.g.zenwritten_compat = 1
+				vim.cmd.colorscheme("zenwritten")
 			end
 		},
 
