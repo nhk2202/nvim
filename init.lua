@@ -280,11 +280,7 @@ require("lazy").setup({
 		{
 			"folke/lazydev.nvim",
 			ft = "lua",
-			opts = {
-				integrations = {
-					cmp = false
-				}
-			}
+			opts = {}
 		},
 
 		{
