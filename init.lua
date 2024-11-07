@@ -2,8 +2,6 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, "<Space>", "<Nop>", { silent = true })
 
-vim.wo.number = true
-vim.wo.relativenumber = true
 vim.wo.wrap = false
 vim.wo.colorcolumn = "100"
 
@@ -220,10 +218,6 @@ require("lazy").setup({
 				require("mini.statusline").setup({
 					use_icons = false
 				})
-				---@diagnostic disable-next-line: duplicate-set-field
-				MiniStatusline.section_location = function()
-					return ""
-				end
 
 				require("mini.surround").setup({
 					respect_selection_type = true
