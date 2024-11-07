@@ -396,8 +396,8 @@ vim.api.nvim_create_autocmd("BufRead", {
 vim.keymap.set('i', "<A-i>", "<C-^>")
 
 vim.keymap.set('n', "<Esc>", vim.cmd.nohlsearch)
-vim.keymap.set('n', 'J', "<C-d>")
-vim.keymap.set('n', 'K', "<C-u>")
+vim.keymap.set({ 'n', 'v' }, 'J', "<C-d>")
+vim.keymap.set({ 'n', 'v' }, 'K', "<C-u>")
 vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
 
