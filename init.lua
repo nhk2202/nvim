@@ -91,7 +91,8 @@ require("lazy").setup({
 						{ mode = 'n', keys = "<Leader>g", desc = "+Git" },
 						{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 						{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-						{ mode = 'n', keys = "<Leader>t", desc = "+VimTeX" },
+						{ mode = 'n', keys = "<Leader>t", desc = "+Tab" },
+						{ mode = 'n', keys = "<Leader>x", desc = "+VimTeX" },
 						{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
 					},
 
@@ -254,24 +255,24 @@ require("lazy").setup({
 					}
 				}
 				vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
-				vim.keymap.set('n', "<LocalLeader>ti", "<plug>(vimtex-info)", { desc = "Info" })
-				vim.keymap.set('n', "<LocalLeader>tI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
-				vim.keymap.set('n', "<LocalLeader>td", "<plug>(vimtex-doc-package)", { desc = "Documentation" })
-				vim.keymap.set('n', "<LocalLeader>tt", "<plug>(vimtex-toc-toggle)", { desc = "Toggle toc" })
-				vim.keymap.set('n', "<LocalLeader>tl", "<plug>(vimtex-log)", { desc = "Log" })
-				vim.keymap.set('n', "<LocalLeader>tv", "<plug>(vimtex-view)", { desc = "View pdf" })
-				vim.keymap.set('n', "<LocalLeader>tc", "<plug>(vimtex-compile)", { desc = "Compile" })
-				vim.keymap.set('n', "<LocalLeader>tC", "<plug>(vimtex-compile-selected)", { desc = "Compile selected" })
-				vim.keymap.set('n', "<LocalLeader>tk", "<plug>(vimtex-stop)", { desc = "Stop" })
-				vim.keymap.set('n', "<LocalLeader>tK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
-				vim.keymap.set('n', "<LocalLeader>te", "<plug>(vimtex-errors)", { desc = "Errors" })
-				vim.keymap.set('n', "<LocalLeader>to", "<plug>(vimtex-compile-output)", { desc = "Compile output" })
-				vim.keymap.set('n', "<LocalLeader>ts", "<plug>(vimtex-status)", { desc = "Status" })
-				vim.keymap.set('n', "<LocalLeader>tS", "<plug>(vimtex-status-all)", { desc = "Status (full)" })
-				vim.keymap.set('n', "<LocalLeader>tx", "<plug>(vimtex-clean)", { desc = "Clean" })
-				vim.keymap.set('n', "<LocalLeader>tX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
-				vim.keymap.set('n', "<LocalLeader>ta", "<plug>(vimtex-context-menu)", { desc = "Action" })
-				vim.keymap.set('n', "<LocalLeader>tm", "<plug>(vimtex-imaps-list)", { desc = "List imaps" })
+				vim.keymap.set('n', "<LocalLeader>xi", "<plug>(vimtex-info)", { desc = "Info" })
+				vim.keymap.set('n', "<LocalLeader>xI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
+				vim.keymap.set('n', "<LocalLeader>xd", "<plug>(vimtex-doc-package)", { desc = "Documentation" })
+				vim.keymap.set('n', "<LocalLeader>xt", "<plug>(vimtex-toc-toggle)", { desc = "Toggle toc" })
+				vim.keymap.set('n', "<LocalLeader>xl", "<plug>(vimtex-log)", { desc = "Log" })
+				vim.keymap.set('n', "<LocalLeader>xv", "<plug>(vimtex-view)", { desc = "View pdf" })
+				vim.keymap.set('n', "<LocalLeader>xc", "<plug>(vimtex-compile)", { desc = "Compile" })
+				vim.keymap.set('n', "<LocalLeader>xC", "<plug>(vimtex-compile-selected)", { desc = "Compile selected" })
+				vim.keymap.set('n', "<LocalLeader>xk", "<plug>(vimtex-stop)", { desc = "Stop" })
+				vim.keymap.set('n', "<LocalLeader>xK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
+				vim.keymap.set('n', "<LocalLeader>xe", "<plug>(vimtex-errors)", { desc = "Errors" })
+				vim.keymap.set('n', "<LocalLeader>xo", "<plug>(vimtex-compile-output)", { desc = "Compile output" })
+				vim.keymap.set('n', "<LocalLeader>xs", "<plug>(vimtex-status)", { desc = "Status" })
+				vim.keymap.set('n', "<LocalLeader>xS", "<plug>(vimtex-status-all)", { desc = "Status (full)" })
+				vim.keymap.set('n', "<LocalLeader>xx", "<plug>(vimtex-clean)", { desc = "Clean" })
+				vim.keymap.set('n', "<LocalLeader>xX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
+				vim.keymap.set('n', "<LocalLeader>xa", "<plug>(vimtex-context-menu)", { desc = "Action" })
+				vim.keymap.set('n', "<LocalLeader>xm", "<plug>(vimtex-imaps-list)", { desc = "List imaps" })
 			end
 		},
 
@@ -398,7 +399,7 @@ vim.keymap.set('i', "<A-i>", "<C-^>")
 vim.keymap.set('n', "<Esc>", vim.cmd.nohlsearch)
 vim.keymap.set({ 'n', 'v' }, 'J', "<C-d>")
 vim.keymap.set({ 'n', 'v' }, 'K', "<C-u>")
-vim.keymap.set('t', "<Esc><Esc>", "<C-\\><C-n>")
+vim.keymap.set('t', "<Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
 
 vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show" })
@@ -406,8 +407,8 @@ vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show" })
 vim.keymap.set('n', "<Leader>bs", vim.cmd.write, { desc = "Save" })
 vim.keymap.set('n', "<Leader>bd", vim.cmd.bdelete, { desc = "Delete" })
 
-vim.keymap.set('n', "<Leader>ws", vim.cmd.new, { desc = "Split" })
-vim.keymap.set('n', "<Leader>wv", vim.cmd.vnew, { desc = "Split vertically" })
+vim.keymap.set('n', "<Leader>ws", vim.cmd.split, { desc = "Split" })
+vim.keymap.set('n', "<Leader>wv", vim.cmd.vsplit, { desc = "Split vertically" })
 vim.keymap.set('n', "<Leader>wc", "<C-w>c", { desc = "Close" })
 vim.keymap.set('n', "<Leader>wo", "<C-w>o", { desc = "Close others" })
 vim.keymap.set('n', "<Leader>ww", "<C-w>w", { desc = "Focus other" })
@@ -419,3 +420,11 @@ vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move left" })
 vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move down" })
 vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move up" })
 vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move right" })
+
+vim.keymap.set('n', "<Leader>tt", vim.cmd.tabnew, { desc = "New tab" })
+vim.keymap.set('n', "<Leader>tc", vim.cmd.tabclose, { desc = "Close tab" })
+vim.keymap.set('n', "<Leader>to", vim.cmd.tabonly, { desc = "Close other tabs" })
+vim.keymap.set('n', "<Leader>tn", vim.cmd.next, { desc = "Next tab" })
+vim.keymap.set('n', "<Leader>tp", vim.cmd.previous, { desc = "Previous tab" })
+
+vim.keymap.set('n', "<Leader>T", vim.cmd.terminal, { desc = "Terminal" })
