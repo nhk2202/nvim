@@ -94,7 +94,7 @@ require("lazy").setup({
 						{ mode = 'n', keys = "<Leader>l", desc = "+LSP" },
 						{ mode = 'n', keys = "<Leader>p", desc = "+Pick" },
 						{ mode = 'n', keys = "<Leader>t", desc = "+Tab" },
-						{ mode = 'n', keys = "<Leader>x", desc = "+VimTeX" },
+						{ mode = 'n', keys = "<Leader>lt", desc = "+VimTeX" },
 						{ mode = 'n', keys = "<Leader>w", desc = "+Window" }
 					},
 
@@ -257,24 +257,24 @@ require("lazy").setup({
 					}
 				}
 				vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
-				vim.keymap.set('n', "<LocalLeader>xi", "<plug>(vimtex-info)", { desc = "Info" })
-				vim.keymap.set('n', "<LocalLeader>xI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
-				vim.keymap.set('n', "<LocalLeader>xd", "<plug>(vimtex-doc-package)", { desc = "Documentation" })
-				vim.keymap.set('n', "<LocalLeader>xt", "<plug>(vimtex-toc-toggle)", { desc = "Toggle toc" })
-				vim.keymap.set('n', "<LocalLeader>xl", "<plug>(vimtex-log)", { desc = "Log" })
-				vim.keymap.set('n', "<LocalLeader>xv", "<plug>(vimtex-view)", { desc = "View pdf" })
-				vim.keymap.set('n', "<LocalLeader>xc", "<plug>(vimtex-compile)", { desc = "Compile" })
-				vim.keymap.set('n', "<LocalLeader>xC", "<plug>(vimtex-compile-selected)", { desc = "Compile selected" })
-				vim.keymap.set('n', "<LocalLeader>xk", "<plug>(vimtex-stop)", { desc = "Stop" })
-				vim.keymap.set('n', "<LocalLeader>xK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
-				vim.keymap.set('n', "<LocalLeader>xe", "<plug>(vimtex-errors)", { desc = "Errors" })
-				vim.keymap.set('n', "<LocalLeader>xo", "<plug>(vimtex-compile-output)", { desc = "Compile output" })
-				vim.keymap.set('n', "<LocalLeader>xs", "<plug>(vimtex-status)", { desc = "Status" })
-				vim.keymap.set('n', "<LocalLeader>xS", "<plug>(vimtex-status-all)", { desc = "Status (full)" })
-				vim.keymap.set('n', "<LocalLeader>xx", "<plug>(vimtex-clean)", { desc = "Clean" })
-				vim.keymap.set('n', "<LocalLeader>xX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
-				vim.keymap.set('n', "<LocalLeader>xa", "<plug>(vimtex-context-menu)", { desc = "Action" })
-				vim.keymap.set('n', "<LocalLeader>xm", "<plug>(vimtex-imaps-list)", { desc = "List imaps" })
+				vim.keymap.set('n', "<LocalLeader>lti", "<plug>(vimtex-info)", { desc = "Info" })
+				vim.keymap.set('n', "<LocalLeader>ltI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
+				vim.keymap.set('n', "<LocalLeader>ltd", "<plug>(vimtex-doc-package)", { desc = "Documentation" })
+				vim.keymap.set('n', "<LocalLeader>ltt", "<plug>(vimtex-toc-toggle)", { desc = "Toggle toc" })
+				vim.keymap.set('n', "<LocalLeader>ltl", "<plug>(vimtex-log)", { desc = "Log" })
+				vim.keymap.set('n', "<LocalLeader>ltv", "<plug>(vimtex-view)", { desc = "View pdf" })
+				vim.keymap.set('n', "<LocalLeader>ltc", "<plug>(vimtex-compile)", { desc = "Compile" })
+				vim.keymap.set('n', "<LocalLeader>ltC", "<plug>(vimtex-compile-selected)", { desc = "Compile selected" })
+				vim.keymap.set('n', "<LocalLeader>ltk", "<plug>(vimtex-stop)", { desc = "Stop" })
+				vim.keymap.set('n', "<LocalLeader>ltK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
+				vim.keymap.set('n', "<LocalLeader>lte", "<plug>(vimtex-errors)", { desc = "Errors" })
+				vim.keymap.set('n', "<LocalLeader>lto", "<plug>(vimtex-compile-output)", { desc = "Compile output" })
+				vim.keymap.set('n', "<LocalLeader>lts", "<plug>(vimtex-status)", { desc = "Status" })
+				vim.keymap.set('n', "<LocalLeader>ltS", "<plug>(vimtex-status-all)", { desc = "Status (full)" })
+				vim.keymap.set('n', "<LocalLeader>ltx", "<plug>(vimtex-clean)", { desc = "Clean" })
+				vim.keymap.set('n', "<LocalLeader>ltX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
+				vim.keymap.set('n', "<LocalLeader>lta", "<plug>(vimtex-context-menu)", { desc = "Action" })
+				vim.keymap.set('n', "<LocalLeader>ltm", "<plug>(vimtex-imaps-list)", { desc = "List imaps" })
 			end
 		},
 
