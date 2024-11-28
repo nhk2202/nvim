@@ -3,12 +3,12 @@ vim.g.maplocalleader = ' '
 vim.keymap.set({ 'n', 'v' }, "<Space>", "<Nop>", { silent = true })
 
 vim.wo.wrap = false
-vim.wo.colorcolumn = "100"
+vim.wo.colorcolumn = "80"
 
 vim.o.termguicolors = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
-vim.bo.expandtab = true
+vim.o.expandtab = true
 vim.o.cursorline = true
 vim.o.mouse = 'a'
 vim.o.ignorecase = true
@@ -416,6 +416,10 @@ vim.keymap.set('i', "<A-i>", "<C-^>")
 vim.keymap.set('n', "<Esc>", vim.cmd.nohlsearch)
 vim.keymap.set({ 'n', 'v' }, 'J', "<C-d>")
 vim.keymap.set({ 'n', 'v' }, 'K', "<C-u>")
+vim.keymap.set({ 'n', 'v' }, 'H', 'b')
+vim.keymap.set({ 'n', 'v' }, 'L', 'w')
+vim.keymap.set({ 'n', 'v' }, "<M-h>", 'ge')
+vim.keymap.set({ 'n', 'v' }, "<M-l>", 'e')
 vim.keymap.set('t', "<Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
 
