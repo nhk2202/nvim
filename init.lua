@@ -90,10 +90,10 @@ require("lazy").setup({
                         clue.gen_clues.registers(),
 
                         { mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
-                        { mode = 'n', keys = "<Leader>d", desc = "+Diagnostic" },
                         { mode = 'n', keys = "<Leader>g", desc = "+Git" },
                         { mode = 'n', keys = "<Leader>l", desc = "+LSP" },
                         { mode = 'n', keys = "<Leader>p", desc = "+Pick" },
+                        { mode = 'n', keys = "<Leader>pd", desc = "+Diagnostics" },
                         { mode = 'n', keys = "<Leader>t", desc = "+Tab" },
                         { mode = 'n', keys = "<Leader>lt", desc = "+VimTeX" },
                         { mode = 'n', keys = "<Leader>w", desc = "+Window" }
@@ -125,6 +125,31 @@ require("lazy").setup({
                 vim.keymap.set('n', "<Leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 
                 require("mini.extra").setup()
+                vim.keymap.set('n', "<Leader>pdw", function()
+                    MiniExtra.pickers.diagnostic({
+                        get_opts = { severity = vim.diagnostic.severity.WARN },
+                        scope = "current"
+                    })
+                end, { desc = "Warnings (Current file)" })
+                vim.keymap.set('n', "<Leader>pde", function()
+                    MiniExtra.pickers.diagnostic({
+                        get_opts = { severity = vim.diagnostic.severity.ERROR },
+                        scope = "current"
+                    })
+                end, { desc = "Errors (Current file)" })
+                vim.keymap.set('n', "<Leader>pdW", function()
+                    MiniExtra.pickers.diagnostic({
+                        get_opts = { severity = vim.diagnostic.severity.WARN }
+                    })
+                end, { desc = "Warnings" })
+                vim.keymap.set('n', "<Leader>pdE", function()
+                    MiniExtra.pickers.diagnostic({
+                        get_opts = { severity = vim.diagnostic.severity.ERROR }
+                    })
+                end, { desc = "Errors" })
+                vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks, { desc = "Marks" })
+                vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers, { desc = "Registers" })
+                vim.keymap.set('n', "<Leader>pv", MiniExtra.pickers.visit_paths, { desc = "Recent files" })
 
                 require("mini.files").setup({
                     content = {
@@ -214,9 +239,6 @@ require("lazy").setup({
                 vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Files" })
                 vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live, { desc = "Grep" })
                 vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume, { desc = "Resume" })
-                vim.keymap.set('n', "<Leader>dp", MiniExtra.pickers.diagnostic, { desc = "Pick" })
-                vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks, { desc = "Marks" })
-                vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers, { desc = "Registers" })
 
                 require("mini.statusline").setup({
                     use_icons = false
@@ -312,9 +334,6 @@ require("lazy").setup({
                         vim.keymap.set('n', "<Leader>ld", function()
                             MiniExtra.pickers.lsp({ scope = "definition" })
                         end, { buffer = event.buf, desc = "Definition" })
-                        vim.keymap.set('n', "<Leader>lD", function()
-                            MiniExtra.pickers.lsp({ scope = "type_definition" })
-                        end, { buffer = event.buf, desc = "Type definition" })
                         vim.keymap.set('n', "<Leader>li", function()
                             MiniExtra.pickers.lsp({ scope = "implementation" })
                         end, { buffer = event.buf, desc = "Implementation" })
@@ -323,10 +342,11 @@ require("lazy").setup({
                         end, { buffer = event.buf, desc = "References" })
                         vim.keymap.set('n', "<Leader>ls", function()
                             MiniExtra.pickers.lsp({ scope = "document_symbol" })
-                        end, { buffer = event.buf, desc = "Symbols in file" })
+                        end, { buffer = event.buf, desc = "Search file" })
                         vim.keymap.set('n', "<Leader>lS", function()
                             MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
-                        end, { buffer = event.buf, desc = "Symbols in workspace" })
+                        end, { buffer = event.buf, desc = "Search workspace" })
+                        vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { desc = "Show diagnostic" })
                         vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = event.buf, desc = "Information" })
                         vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = event.buf, desc = "Rename" })
                         vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
@@ -422,8 +442,8 @@ vim.keymap.set({ 'n', 'v' }, "<M-h>", 'ge')
 vim.keymap.set({ 'n', 'v' }, "<M-l>", 'e')
 vim.keymap.set('t', "<Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
-
-vim.keymap.set('n', "<Leader>dd", vim.diagnostic.open_float, { desc = "Show" })
+vim.keymap.set('n', "]]", "<C-]>")
+vim.keymap.set('n', "[[", "<C-t>")
 
 vim.keymap.set('n', "<Leader>bs", vim.cmd.write, { desc = "Save" })
 vim.keymap.set('n', "<Leader>bd", vim.cmd.bdelete, { desc = "Delete" })
