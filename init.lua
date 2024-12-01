@@ -46,7 +46,7 @@ require("lazy").setup({
             "echasnovski/mini.nvim",
             version = false,
             config = function()
-                require("mini.ai").setup({})
+                require("mini.ai").setup()
 
                 require("mini.bracketed").setup({
                     undo = { options = { wrap = false } }
@@ -406,7 +406,6 @@ require("lazy").setup({
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-    group = vim.api.nvim_create_augroup("MyConfig", {}),
     pattern = "*.c,*.h,*.cc,*.hh,*.cpp,*.hpp",
     callback = function(event)
         vim.bo[event.buf].commentstring = "// %s"
@@ -414,7 +413,6 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-    group = "MyConfig",
     pattern = "*.py,makefile,Makefile",
     callback = function(event)
         vim.bo[event.buf].expandtab = false
@@ -422,7 +420,6 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-    group = "MyConfig",
     pattern = "*",
     callback = function(event)
         if vim.bo[event.buf].modifiable then
