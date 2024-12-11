@@ -254,9 +254,6 @@ require("lazy").setup({
             end
         },
 
-            end
-        },
-
         {
             "lervag/vimtex",
             lazy = false,
