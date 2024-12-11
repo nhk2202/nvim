@@ -353,14 +353,7 @@ require("lazy").setup({
                             enable = false
                         }
                     },
-                    clangd = {},
-                    texlab = {
-                        settings = {
-                            texlab = {
-                                formatterLineLength = 100
-                            }
-                        }
-                    }
+                    clangd = {}
                 }
 
                 require("mason").setup()
