@@ -258,7 +258,7 @@ require("lazy").setup({
             "lervag/vimtex",
             lazy = false,
             init = function()
-                vim.g.vimtex_mappings_prefix = "<LocalLeader>t"
+                vim.g.vimtex_mappings_prefix = "<LocalLeader>lt"
                 vim.g.vimtex_compiler_latexmk = {
                     aux_dir = "./aux",
                     out_dir = "./out",
