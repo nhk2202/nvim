@@ -246,6 +246,9 @@ require("lazy").setup({
                 require("mini.statusline").setup({
                     use_icons = false
                 })
+                MiniStatusline.section_location = function(args)
+                    return "%l|%L"
+                end
 
                 require("mini.surround").setup({
                     respect_selection_type = true
