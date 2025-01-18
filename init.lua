@@ -396,14 +396,14 @@ require("lazy").setup({
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-    pattern = "*.c,*.h,*.cc,*.hh,*.cpp,*.hpp",
+    pattern = { "*.c", "*.h", "*.cc", "*.hh", "*.cpp", "*.hpp", "*.ino", "*.C", "*.H" },
     callback = function (event)
         vim.bo[event.buf].commentstring = "// %s"
     end
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-    pattern = "*.py,makefile,Makefile",
+    pattern = { "*.py", "makefile", "Makefile" },
     callback = function (event)
         vim.bo[event.buf].expandtab = false
     end
