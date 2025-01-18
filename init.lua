@@ -276,6 +276,7 @@ require("lazy").setup({
                         "-interaction=nonstopmode"
                     }
                 }
+                vim.g.vimtex_format_enabled = 1
                 vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
                 vim.keymap.set('n', "<LocalLeader>lti", "<plug>(vimtex-info)", { desc = "Info" })
                 vim.keymap.set('n', "<LocalLeader>ltI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
