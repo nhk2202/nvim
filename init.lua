@@ -45,34 +45,34 @@ require("lazy").setup({
         {
             "echasnovski/mini.nvim",
             version = false,
-            config = function()
+            config = function ()
                 require("mini.ai").setup()
 
                 require("mini.bracketed").setup({
                     undo = { options = { wrap = false } }
                 })
-                vim.keymap.set('n', "]e", function()
+                vim.keymap.set('n', "]e", function ()
                     MiniBracketed.diagnostic("forward", { severity = vim.diagnostic.severity.ERROR })
                 end)
-                vim.keymap.set('n', "[e", function()
+                vim.keymap.set('n', "[e", function ()
                     MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
                 end)
-                vim.keymap.set('n', "]E", function()
+                vim.keymap.set('n', "]E", function ()
                     MiniBracketed.diagnostic("first", { severity = vim.diagnostic.severity.ERROR })
                 end)
-                vim.keymap.set('n', "[E", function()
+                vim.keymap.set('n', "[E", function ()
                     MiniBracketed.diagnostic("last", { severity = vim.diagnostic.severity.ERROR })
                 end)
-                vim.keymap.set('n', "]w", function()
+                vim.keymap.set('n', "]w", function ()
                     MiniBracketed.diagnostic("forward", { severity = vim.diagnostic.severity.WARN })
                 end)
-                vim.keymap.set('n', "[w", function()
+                vim.keymap.set('n', "[w", function ()
                     MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.WARN })
                 end)
-                vim.keymap.set('n', "]W", function()
+                vim.keymap.set('n', "]W", function ()
                     MiniBracketed.diagnostic("first", { severity = vim.diagnostic.severity.WARN })
                 end)
-                vim.keymap.set('n', "[W", function()
+                vim.keymap.set('n', "[W", function ()
                     MiniBracketed.diagnostic("last", { severity = vim.diagnostic.severity.WARN })
                 end)
 
@@ -108,7 +108,7 @@ require("lazy").setup({
 
                 require("mini.comment").setup({
                     options = {
-                        custom_commentstring = function()
+                        custom_commentstring = function ()
                             return vim.bo.commentstring
                         end,
                         ignore_blank_line = true
@@ -128,24 +128,24 @@ require("lazy").setup({
                 vim.keymap.set('n', "<Leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
 
                 require("mini.extra").setup()
-                vim.keymap.set('n', "<Leader>pdw", function()
+                vim.keymap.set('n', "<Leader>pdw", function ()
                     MiniExtra.pickers.diagnostic({
                         get_opts = { severity = vim.diagnostic.severity.WARN },
                         scope = "current"
                     })
                 end, { desc = "Warnings (Current file)" })
-                vim.keymap.set('n', "<Leader>pde", function()
+                vim.keymap.set('n', "<Leader>pde", function ()
                     MiniExtra.pickers.diagnostic({
                         get_opts = { severity = vim.diagnostic.severity.ERROR },
                         scope = "current"
                     })
                 end, { desc = "Errors (Current file)" })
-                vim.keymap.set('n', "<Leader>pdW", function()
+                vim.keymap.set('n', "<Leader>pdW", function ()
                     MiniExtra.pickers.diagnostic({
                         get_opts = { severity = vim.diagnostic.severity.WARN }
                     })
                 end, { desc = "Warnings" })
-                vim.keymap.set('n', "<Leader>pdE", function()
+                vim.keymap.set('n', "<Leader>pdE", function ()
                     MiniExtra.pickers.diagnostic({
                         get_opts = { severity = vim.diagnostic.severity.ERROR }
                     })
@@ -156,7 +156,7 @@ require("lazy").setup({
 
                 require("mini.files").setup({
                     content = {
-                        prefix = function() end
+                        prefix = function () end
                     }
                 })
                 vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "Explore" })
@@ -167,7 +167,7 @@ require("lazy").setup({
                     }
                 })
                 vim.keymap.set('n', "<Leader>gg", MiniGit.show_at_cursor, { desc = "Show git data" })
-                local align_blame = function(au_data)
+                local align_blame = function (au_data)
                     if au_data.data.git_subcommand ~= "blame" then return end
                     local win_src = au_data.data.win_source
                     vim.wo.wrap = false
@@ -216,7 +216,7 @@ require("lazy").setup({
                     },
 
                     window = {
-                        config = function()
+                        config = function ()
                             local height = math.floor(0.618 * vim.o.lines)
                             local width = math.floor(0.618 * vim.o.columns)
                             return {
@@ -229,7 +229,7 @@ require("lazy").setup({
                         end
                     }
                 })
-                vim.keymap.set('n', "<Leader>h", function()
+                vim.keymap.set('n', "<Leader>h", function ()
                     MiniPick.builtin.help({}, {
                         mappings = {
                             show_help_in_split = { char = "<A-s>" },
@@ -246,7 +246,7 @@ require("lazy").setup({
                 require("mini.statusline").setup({
                     use_icons = false
                 })
-                MiniStatusline.section_location = function(args)
+                MiniStatusline.section_location = function ()
                     return "%l|%L"
                 end
 
@@ -263,7 +263,7 @@ require("lazy").setup({
         {
             "lervag/vimtex",
             lazy = false,
-            init = function()
+            init = function ()
                 vim.g.vimtex_mappings_prefix = "<LocalLeader>lt"
                 vim.g.vimtex_compiler_latexmk = {
                     aux_dir = "./aux",
@@ -322,24 +322,24 @@ require("lazy").setup({
 
                 "williamboman/mason-lspconfig.nvim",
             },
-            config = function()
+            config = function ()
                 vim.api.nvim_create_autocmd("LspAttach", {
                     group = vim.api.nvim_create_augroup("MyLspConfig", {}),
-                    callback = function(event)
+                    callback = function (event)
                         vim.bo[event.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
-                        vim.keymap.set('n', "<Leader>ld", function()
+                        vim.keymap.set('n', "<Leader>ld", function ()
                             MiniExtra.pickers.lsp({ scope = "definition" })
                         end, { buffer = event.buf, desc = "Definition" })
-                        vim.keymap.set('n', "<Leader>li", function()
+                        vim.keymap.set('n', "<Leader>li", function ()
                             MiniExtra.pickers.lsp({ scope = "implementation" })
                         end, { buffer = event.buf, desc = "Implementation" })
-                        vim.keymap.set('n', "<Leader>lr", function()
+                        vim.keymap.set('n', "<Leader>lr", function ()
                             MiniExtra.pickers.lsp({ scope = "references" })
                         end, { buffer = event.buf, desc = "References" })
-                        vim.keymap.set('n', "<Leader>ls", function()
+                        vim.keymap.set('n', "<Leader>ls", function ()
                             MiniExtra.pickers.lsp({ scope = "document_symbol" })
                         end, { buffer = event.buf, desc = "Search file" })
-                        vim.keymap.set('n', "<Leader>lS", function()
+                        vim.keymap.set('n', "<Leader>lS", function ()
                             MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
                         end, { buffer = event.buf, desc = "Search workspace" })
                         vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { desc = "Show diagnostic" })
@@ -347,7 +347,7 @@ require("lazy").setup({
                         vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = event.buf, desc = "Rename" })
                         vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
                             { buffer = event.buf, desc = "Action" })
-                        vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
+                        vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function ()
                             vim.lsp.buf.format({ async = true })
                         end, { buffer = event.buf, desc = "Format" })
                     end
@@ -366,7 +366,7 @@ require("lazy").setup({
                 require("mason-lspconfig").setup({
                     ensure_installed = { "lua_ls" },
                     handlers = {
-                        function(server_name)
+                        function (server_name)
                             require("lspconfig")[server_name].setup(servers[server_name] or {})
                         end
                     }
@@ -396,21 +396,21 @@ require("lazy").setup({
 
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = "*.c,*.h,*.cc,*.hh,*.cpp,*.hpp",
-    callback = function(event)
+    callback = function (event)
         vim.bo[event.buf].commentstring = "// %s"
     end
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = "*.py,makefile,Makefile",
-    callback = function(event)
+    callback = function (event)
         vim.bo[event.buf].expandtab = false
     end
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = "*",
-    callback = function(event)
+    callback = function (event)
         if vim.bo[event.buf].modifiable then
             vim.bo[event.buf].keymap = "vietnamese-telex_utf-8"
             vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i<C-^><ESC>", true, false, true), 'n', true)
