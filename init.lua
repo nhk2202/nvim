@@ -380,13 +380,30 @@ require("lazy").setup({
         }
     },
 
+    install = {
+        colorscheme = { "default" }
+    },
+
+    checker = {
+        enabled = true
+    },
+
+    performance = {
+        rtp = {
+            disabled_plugins = {
+                "netrwPlugin",
+                "tutor"
+            }
+        }
+    },
+
     ui = {
         icons = {
-            cmd = "⌘",
+            cmd = "🫅",
             config = "🛠",
             event = "📅",
             ft = "📂",
-            init = "⚙",
+            init = "⚙️",
             keys = "🗝",
             plugin = "🔌",
             runtime = "💻",
