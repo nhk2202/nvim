@@ -47,6 +47,7 @@ require("lazy").setup({
         {
             "echasnovski/mini.nvim",
             version = false,
+            event = "VeryLazy",
             config = function ()
                 require("mini.ai").setup()
 
@@ -309,6 +310,7 @@ require("lazy").setup({
 
         {
             "neovim/nvim-lspconfig",
+            event = "VeryLazy",
             dependencies = {
                 {
                     "williamboman/mason.nvim",
