@@ -13,13 +13,15 @@ vim.o.cursorline = true
 vim.o.mouse = 'a'
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.o.completeopt = "menuone,preview,noselect"
+vim.o.completeopt = "menuone,preview,noselect,popup"
 vim.o.scrolloff = 10
 vim.o.showmode = false
 vim.o.showcmd = false
 vim.o.ruler = false
 vim.o.splitbelow = true
 vim.o.splitright = true
+vim.o.undofile = true
+vim.o.updatetime = 50
 
 vim.opt.clipboard:append("unnamedplus") -- NOTE: (WSL) Make sure win32yank.exe is in Path.
 vim.opt.shortmess:append('S')
