@@ -303,12 +303,6 @@ require("lazy").setup({
         },
 
         {
-            "folke/lazydev.nvim",
-            ft = "lua",
-            opts = {}
-        },
-
-        {
             "neovim/nvim-lspconfig",
             event = "VeryLazy",
             dependencies = {
@@ -359,17 +353,11 @@ require("lazy").setup({
                 })
 
                 local servers = {
-                    lua_ls = {
-                        format = {
-                            enable = false
-                        }
-                    },
                     clangd = {}
                 }
 
                 require("mason").setup()
                 require("mason-lspconfig").setup({
-                    ensure_installed = { "lua_ls" },
                     handlers = {
                         function (server_name)
                             require("lspconfig")[server_name].setup(servers[server_name] or {})
