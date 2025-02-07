@@ -407,7 +407,7 @@ require("lazy").setup({
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = { "*.c", "*.h", "*.cc", "*.hh", "*.cpp", "*.hpp", "*.ino", "*.C", "*.H" },
     callback = function (event)
-        vim.bo[event.buf].commentstring = "// %s"
+        vim.bo[event.buf].commentstring = "//%s"
     end
 })
 
