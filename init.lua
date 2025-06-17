@@ -23,7 +23,7 @@ vim.o.splitright = true
 vim.o.undofile = true
 vim.o.updatetime = 50
 
-vim.opt.clipboard:append("unnamedplus") -- NOTE: (WSL) Make sure win32yank.exe is in Path.
+vim.opt.clipboard:append("unnamedplus")
 vim.opt.shortmess:append('S')
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -94,11 +94,11 @@ require("lazy").setup({
 
                         { mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
                         { mode = 'n', keys = "<Leader>g", desc = "+Git" },
-                        { mode = 'n', keys = "<Leader>l", desc = "+LSP" },
+                        { mode = { 'n', 'v' }, keys = "<Leader>l", desc = "+LSP" },
                         { mode = 'n', keys = "<Leader>p", desc = "+Pick" },
                         { mode = 'n', keys = "<Leader>pd", desc = "+Diagnostics" },
                         { mode = 'n', keys = "<Leader>t", desc = "+Tab" },
-                        { mode = 'n', keys = "<Leader>lt", desc = "+VimTeX" },
+                        { mode = { 'n', 'v' }, keys = "<Leader>lt", desc = "+VimTeX" },
                         { mode = 'n', keys = "<Leader>w", desc = "+Window" }
                     },
 
@@ -303,6 +303,12 @@ require("lazy").setup({
         },
 
         {
+            "folke/lazydev.nvim",
+            ft = "lua",
+            opts = {}
+        },
+
+        {
             "neovim/nvim-lspconfig",
             event = "VeryLazy",
             dependencies = {
@@ -311,9 +317,9 @@ require("lazy").setup({
                     opts = {
                         ui = {
                             icons = {
-                                package_installed = '✓',
-                                package_uninstalled = '✗',
-                                package_pending = '…'
+                                package_installed = 'I',
+                                package_uninstalled = 'U',
+                                package_pending = 'P'
                             }
                         }
                     }
@@ -352,12 +358,14 @@ require("lazy").setup({
                     end
                 })
 
+                require("mason").setup()
                 local servers = {
+                    lua_ls = {},
                     clangd = {}
                 }
-
-                require("mason").setup()
                 require("mason-lspconfig").setup({
+                    ensure_installed = { "lua_ls" },
+                    automatic_enable = true,
                     handlers = {
                         function (server_name)
                             require("lspconfig")[server_name].setup(servers[server_name] or {})
@@ -387,32 +395,32 @@ require("lazy").setup({
 
     ui = {
         icons = {
-            cmd = "🫅",
-            config = "🛠",
-            event = "📅",
-            ft = "📂",
-            init = "⚙️",
-            keys = "🗝",
-            plugin = "🔌",
-            runtime = "💻",
-            require = "🌙",
-            source = "📄",
-            start = "🚀",
-            task = "📌",
-            lazy = "💤 ",
+            cmd = "(cmd)",
+            config = "(cfg)",
+            event = "(event)",
+            ft = "(ft)",
+            init = "(init)",
+            keys = "(key)",
+            plugin = "(plugin)",
+            runtime = "(rt)",
+            require = "(req)",
+            source = "(src)",
+            start = "(start)",
+            task = "(task)",
+            lazy = "(lazy)",
         },
     }
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-    pattern = { "*.c", "*.h", "*.cc", "*.hh", "*.cpp", "*.hpp", "*.ino", "*.C", "*.H" },
+    pattern = { "*.c", "*.h", "*.cc", "*.hh", "*.cpp", "*.hpp", "*.cxx", "*.hxx", "*.C", "*.H" },
     callback = function (event)
         vim.bo[event.buf].commentstring = "//%s"
     end
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
-    pattern = { "*.py", "makefile", "Makefile" },
+    pattern = { "makefile", "Makefile" },
     callback = function (event)
         vim.bo[event.buf].expandtab = false
     end
@@ -434,9 +442,6 @@ vim.keymap.set({ 'n', 'v' }, 'J', "<C-d>")
 vim.keymap.set({ 'n', 'v' }, 'K', "<C-u>")
 vim.keymap.set({ 'n', 'v' }, 'H', 'b')
 vim.keymap.set({ 'n', 'v' }, 'L', 'w')
-vim.keymap.set({ 'n', 'v' }, "<M-h>", 'ge')
-vim.keymap.set({ 'n', 'v' }, "<M-l>", 'e')
-vim.keymap.set('t', "<Esc>", "<C-\\><C-n>")
 vim.keymap.set('n', 'U', "<C-r>")
 vim.keymap.set('n', "]]", "<C-]>")
 vim.keymap.set('n', "[[", "<C-t>")
@@ -463,5 +468,3 @@ vim.keymap.set('n', "<Leader>tc", vim.cmd.tabclose, { desc = "Close tab" })
 vim.keymap.set('n', "<Leader>to", vim.cmd.tabonly, { desc = "Close other tabs" })
 vim.keymap.set('n', "<Leader>tn", vim.cmd.tabnext, { desc = "Next tab" })
 vim.keymap.set('n', "<Leader>tp", vim.cmd.tabprevious, { desc = "Previous tab" })
-
-vim.keymap.set('n', "<Leader>T", vim.cmd.terminal, { desc = "Terminal" })
