@@ -94,11 +94,11 @@ require("lazy").setup({
 
                         { mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
                         { mode = 'n', keys = "<Leader>g", desc = "+Git" },
-                        { mode = { 'n', 'v' }, keys = "<Leader>l", desc = "+LSP" },
+                        { mode = 'n', keys = "<Leader>l", desc = "+LSP" },
                         { mode = 'n', keys = "<Leader>p", desc = "+Pick" },
                         { mode = 'n', keys = "<Leader>pd", desc = "+Diagnostics" },
                         { mode = 'n', keys = "<Leader>t", desc = "+Tab" },
-                        { mode = { 'n', 'v' }, keys = "<Leader>lt", desc = "+VimTeX" },
+                        { mode = 'n', keys = "<Leader>lt", desc = "+VimTeX" },
                         { mode = 'n', keys = "<Leader>w", desc = "+Window" }
                     },
 
@@ -317,9 +317,9 @@ require("lazy").setup({
                     opts = {
                         ui = {
                             icons = {
-                                package_installed = 'I',
-                                package_uninstalled = 'U',
-                                package_pending = 'P'
+                                package_installed = '',
+                                package_uninstalled = '',
+                                package_pending = ''
                             }
                         }
                     }
