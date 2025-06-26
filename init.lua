@@ -1,6 +1,5 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-vim.keymap.set({ 'n', 'v' }, "<Space>", "<Nop>", { silent = true })
 
 vim.wo.wrap = false
 vim.wo.colorcolumn = "80"
@@ -13,15 +12,15 @@ vim.o.cursorline = true
 vim.o.mouse = 'a'
 vim.o.ignorecase = true
 vim.o.smartcase = true
-vim.o.completeopt = "menuone,preview,noselect,popup"
 vim.o.scrolloff = 10
+vim.o.sidescrolloff = 5
+vim.o.ruler = false
 vim.o.showmode = false
 vim.o.showcmd = false
-vim.o.ruler = false
 vim.o.splitbelow = true
 vim.o.splitright = true
-vim.o.undofile = true
-vim.o.updatetime = 50
+vim.o.updatetime = 500
+vim.o.confirm = true
 
 vim.opt.clipboard:append("unnamedplus")
 vim.opt.shortmess:append('S')
@@ -46,36 +45,33 @@ require("lazy").setup({
     spec = {
         {
             "echasnovski/mini.nvim",
-            version = false,
             event = "VeryLazy",
-            config = function ()
-                require("mini.ai").setup()
-
+            config = function()
                 require("mini.bracketed").setup({
-                    undo = { options = { wrap = false } }
+                    window = { suffix = '' },
                 })
-                vim.keymap.set('n', "]e", function ()
+                vim.keymap.set('n', "]e", function()
                     MiniBracketed.diagnostic("forward", { severity = vim.diagnostic.severity.ERROR })
                 end)
-                vim.keymap.set('n', "[e", function ()
+                vim.keymap.set('n', "[e", function()
                     MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.ERROR })
                 end)
-                vim.keymap.set('n', "]E", function ()
+                vim.keymap.set('n', "[E", function()
                     MiniBracketed.diagnostic("first", { severity = vim.diagnostic.severity.ERROR })
                 end)
-                vim.keymap.set('n', "[E", function ()
+                vim.keymap.set('n', "]E", function()
                     MiniBracketed.diagnostic("last", { severity = vim.diagnostic.severity.ERROR })
                 end)
-                vim.keymap.set('n', "]w", function ()
+                vim.keymap.set('n', "]w", function()
                     MiniBracketed.diagnostic("forward", { severity = vim.diagnostic.severity.WARN })
                 end)
-                vim.keymap.set('n', "[w", function ()
+                vim.keymap.set('n', "[w", function()
                     MiniBracketed.diagnostic("backward", { severity = vim.diagnostic.severity.WARN })
                 end)
-                vim.keymap.set('n', "]W", function ()
+                vim.keymap.set('n', "[W", function()
                     MiniBracketed.diagnostic("first", { severity = vim.diagnostic.severity.WARN })
                 end)
-                vim.keymap.set('n', "[W", function ()
+                vim.keymap.set('n', "]W", function()
                     MiniBracketed.diagnostic("last", { severity = vim.diagnostic.severity.WARN })
                 end)
 
@@ -84,26 +80,24 @@ require("lazy").setup({
                     triggers = {
                         { mode = 'n', keys = "<Leader>" },
                         { mode = 'n', keys = '"' },
-                        { mode = 'n', keys = "'" },
-                        { mode = 'n', keys = '`' },
                     },
 
                     clues = {
-                        clue.gen_clues.marks(),
                         clue.gen_clues.registers(),
 
                         { mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
-                        { mode = 'n', keys = "<Leader>g", desc = "+Git" },
                         { mode = 'n', keys = "<Leader>l", desc = "+LSP" },
                         { mode = 'n', keys = "<Leader>p", desc = "+Pick" },
                         { mode = 'n', keys = "<Leader>pd", desc = "+Diagnostics" },
-                        { mode = 'n', keys = "<Leader>t", desc = "+Tab" },
-                        { mode = 'n', keys = "<Leader>lt", desc = "+VimTeX" },
+                        { mode = 'n', keys = "<Leader>t", desc = "+VimTeX" },
                         { mode = 'n', keys = "<Leader>w", desc = "+Window" }
                     },
 
                     window = {
-                        delay = 200,
+                        config = {
+                            width = "auto"
+                        },
+
                         scroll_down = "<A-j>",
                         scroll_up = "<A-k>"
                     }
@@ -111,9 +105,6 @@ require("lazy").setup({
 
                 require("mini.comment").setup({
                     options = {
-                        custom_commentstring = function ()
-                            return vim.bo.commentstring
-                        end,
                         ignore_blank_line = true
                     }
                 })
@@ -126,60 +117,66 @@ require("lazy").setup({
                             change = '~',
                             delete = '-'
                         }
-                    }
+                    },
+                    mappings = {
+                        apply = "",
+                        reset = "",
+                        textobject = ""
+                    },
+                    options = { wrap_goto = true }
                 })
-                vim.keymap.set('n', "<Leader>go", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
+                vim.keymap.set('n', "<Leader>d", MiniDiff.toggle_overlay, { desc = "Diff" })
 
                 require("mini.extra").setup()
-                vim.keymap.set('n', "<Leader>pdw", function ()
+                vim.keymap.set('n', "<Leader>pdw", function()
                     MiniExtra.pickers.diagnostic({
                         get_opts = { severity = vim.diagnostic.severity.WARN },
                         scope = "current"
                     })
                 end, { desc = "Warnings (Current file)" })
-                vim.keymap.set('n', "<Leader>pde", function ()
+                vim.keymap.set('n', "<Leader>pdW", function()
+                    MiniExtra.pickers.diagnostic({
+                        get_opts = { severity = vim.diagnostic.severity.WARN }
+                    })
+                end, { desc = "Warnings" })
+                vim.keymap.set('n', "<Leader>pde", function()
                     MiniExtra.pickers.diagnostic({
                         get_opts = { severity = vim.diagnostic.severity.ERROR },
                         scope = "current"
                     })
                 end, { desc = "Errors (Current file)" })
-                vim.keymap.set('n', "<Leader>pdW", function ()
-                    MiniExtra.pickers.diagnostic({
-                        get_opts = { severity = vim.diagnostic.severity.WARN }
-                    })
-                end, { desc = "Warnings" })
-                vim.keymap.set('n', "<Leader>pdE", function ()
+                vim.keymap.set('n', "<Leader>pdE", function()
                     MiniExtra.pickers.diagnostic({
                         get_opts = { severity = vim.diagnostic.severity.ERROR }
                     })
                 end, { desc = "Errors" })
-                vim.keymap.set('n', "<Leader>pm", MiniExtra.pickers.marks, { desc = "Marks" })
-                vim.keymap.set('n', "<Leader>pr", MiniExtra.pickers.registers, { desc = "Registers" })
-                vim.keymap.set('n', "<Leader>pv", MiniExtra.pickers.visit_paths, { desc = "Recent files" })
+                vim.keymap.set('n', "<Leader>pq", function() MiniExtra.pickers.list({ scope = "quickfix" }) end, { desc = "Quickfix" })
 
                 require("mini.files").setup({
                     content = {
-                        prefix = function () end
+                        prefix = function() end
                     }
                 })
                 vim.keymap.set('n', "<Leader>e", MiniFiles.open, { desc = "Explore" })
-
-                require("mini.git").setup({
-                    command = {
-                        split = "vertical"
-                    }
-                })
-                vim.keymap.set('n', "<Leader>gg", MiniGit.show_at_cursor, { desc = "Show git data" })
-                local align_blame = function (au_data)
-                    if au_data.data.git_subcommand ~= "blame" then return end
-                    local win_src = au_data.data.win_source
-                    vim.wo.wrap = false
-                    vim.fn.winrestview({ topline = vim.fn.line('w0', win_src) })
-                    vim.api.nvim_win_set_cursor(0, { vim.fn.line('.', win_src), 0 })
-                    vim.wo[win_src].scrollbind, vim.wo.scrollbind = true, true
+                local show_dotfiles = true
+                local filter_show = function(fs_entry) return true end
+                local filter_hide = function(fs_entry)
+                    return not vim.startswith(fs_entry.name, '.')
                 end
-                local au_opts = { pattern = "MiniGitCommandSplit", callback = align_blame }
-                vim.api.nvim_create_autocmd("User", au_opts)
+                local toggle_dotfiles = function()
+                    show_dotfiles = not show_dotfiles
+                    local new_filter = show_dotfiles and filter_show or filter_hide
+                    MiniFiles.refresh({ content = { filter = new_filter } })
+                end
+                vim.api.nvim_create_autocmd("User", {
+                    pattern = "MiniFilesBufferCreate",
+                    callback = function(args)
+                        local buf_id = args.data.buf_id
+                        vim.keymap.set('n', "g.", toggle_dotfiles, { buffer = buf_id })
+                    end,
+                })
+
+                require("mini.git").setup()
 
                 local hipatterns = require("mini.hipatterns")
                 hipatterns.setup({
@@ -215,11 +212,11 @@ require("lazy").setup({
                     },
 
                     source = {
-                        show = pick.default_show
+                        show = require("mini.pick").default_show
                     },
 
                     window = {
-                        config = function ()
+                        config = function()
                             local height = math.floor(0.618 * vim.o.lines)
                             local width = math.floor(0.618 * vim.o.columns)
                             return {
@@ -232,7 +229,7 @@ require("lazy").setup({
                         end
                     }
                 })
-                vim.keymap.set('n', "<Leader>h", function ()
+                vim.keymap.set('n', "<Leader>h", function()
                     MiniPick.builtin.help({}, {
                         mappings = {
                             show_help_in_split = { char = "<A-s>" },
@@ -240,18 +237,37 @@ require("lazy").setup({
                         }
                     })
                 end, { desc = "Help" })
-                vim.keymap.set('n', "<Leader>bp", MiniPick.builtin.buffers,
-                    { desc = "Pick" })
+                vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers,
+                    { desc = "Buffers" })
                 vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Files" })
                 vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live, { desc = "Grep" })
                 vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume, { desc = "Resume" })
 
                 require("mini.statusline").setup({
+                    content = {
+                        active = function()
+                            local mode, mode_hl = MiniStatusline.section_mode({ trunc_width = 120 })
+                            local git           = MiniStatusline.section_git({ trunc_width = 40 })
+                            local diff          = MiniStatusline.section_diff({ trunc_width = 75 })
+                            local diagnostics   = MiniStatusline.section_diagnostics({ trunc_width = 75 })
+                            local lsp           = MiniStatusline.section_lsp({ trunc_width = 75 })
+                            local filename      = MiniStatusline.section_filename({ trunc_width = 140 })
+                            local fileinfo      = MiniStatusline.section_fileinfo({ trunc_width = 120 })
+                            local search        = MiniStatusline.section_searchcount({ trunc_width = 75 })
+
+                            return MiniStatusline.combine_groups({
+                                { hl = mode_hl,                  strings = { mode } },
+                                { hl = 'MiniStatuslineDevinfo',  strings = { git, diff, diagnostics, lsp } },
+                                '%<',
+                                { hl = 'MiniStatuslineFilename', strings = { filename } },
+                                '%=',
+                                { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
+                                { hl = mode_hl,                  strings = { search, "%l|%L" } },
+                            })
+                        end,
+                    },
                     use_icons = false
                 })
-                MiniStatusline.section_location = function ()
-                    return "%l|%L"
-                end
 
                 require("mini.surround").setup({
                     respect_selection_type = true
@@ -266,7 +282,7 @@ require("lazy").setup({
         {
             "lervag/vimtex",
             lazy = false,
-            init = function ()
+            config = function()
                 vim.g.vimtex_mappings_prefix = "<LocalLeader>lt"
                 vim.g.vimtex_compiler_latexmk = {
                     aux_dir = "./aux",
@@ -281,31 +297,25 @@ require("lazy").setup({
                 }
                 vim.g.vimtex_format_enabled = 1
                 vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
-                vim.keymap.set('n', "<LocalLeader>lti", "<plug>(vimtex-info)", { desc = "Info" })
-                vim.keymap.set('n', "<LocalLeader>ltI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
-                vim.keymap.set('n', "<LocalLeader>ltd", "<plug>(vimtex-doc-package)", { desc = "Documentation" })
-                vim.keymap.set('n', "<LocalLeader>ltt", "<plug>(vimtex-toc-toggle)", { desc = "Toggle toc" })
-                vim.keymap.set('n', "<LocalLeader>ltl", "<plug>(vimtex-log)", { desc = "Log" })
-                vim.keymap.set('n', "<LocalLeader>ltv", "<plug>(vimtex-view)", { desc = "View pdf" })
-                vim.keymap.set('n', "<LocalLeader>ltc", "<plug>(vimtex-compile)", { desc = "Compile" })
-                vim.keymap.set('n', "<LocalLeader>ltC", "<plug>(vimtex-compile-selected)", { desc = "Compile selected" })
-                vim.keymap.set('n', "<LocalLeader>ltk", "<plug>(vimtex-stop)", { desc = "Stop" })
-                vim.keymap.set('n', "<LocalLeader>ltK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
-                vim.keymap.set('n', "<LocalLeader>lte", "<plug>(vimtex-errors)", { desc = "Errors" })
-                vim.keymap.set('n', "<LocalLeader>lto", "<plug>(vimtex-compile-output)", { desc = "Compile output" })
-                vim.keymap.set('n', "<LocalLeader>lts", "<plug>(vimtex-status)", { desc = "Status" })
-                vim.keymap.set('n', "<LocalLeader>ltS", "<plug>(vimtex-status-all)", { desc = "Status (full)" })
-                vim.keymap.set('n', "<LocalLeader>ltx", "<plug>(vimtex-clean)", { desc = "Clean" })
-                vim.keymap.set('n', "<LocalLeader>ltX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
-                vim.keymap.set('n', "<LocalLeader>lta", "<plug>(vimtex-context-menu)", { desc = "Action" })
-                vim.keymap.set('n', "<LocalLeader>ltm", "<plug>(vimtex-imaps-list)", { desc = "List imaps" })
+                vim.keymap.set('n', "<LocalLeader>ti", "<plug>(vimtex-info)", { desc = "Info" })
+                vim.keymap.set('n', "<LocalLeader>tI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
+                vim.keymap.set('n', "<LocalLeader>td", "<plug>(vimtex-doc-package)", { desc = "Documentation" })
+                vim.keymap.set('n', "<LocalLeader>tt", "<plug>(vimtex-toc-toggle)", { desc = "Toggle toc" })
+                vim.keymap.set('n', "<LocalLeader>tl", "<plug>(vimtex-log)", { desc = "Log" })
+                vim.keymap.set('n', "<LocalLeader>tv", "<plug>(vimtex-view)", { desc = "View pdf" })
+                vim.keymap.set('n', "<LocalLeader>tc", "<plug>(vimtex-compile)", { desc = "Compile" })
+                vim.keymap.set('n', "<LocalLeader>tC", "<plug>(vimtex-compile-selected)", { desc = "Compile selected" })
+                vim.keymap.set('n', "<LocalLeader>tk", "<plug>(vimtex-stop)", { desc = "Stop" })
+                vim.keymap.set('n', "<LocalLeader>tK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
+                vim.keymap.set('n', "<LocalLeader>te", "<plug>(vimtex-errors)", { desc = "Errors" })
+                vim.keymap.set('n', "<LocalLeader>to", "<plug>(vimtex-compile-output)", { desc = "Compile output" })
+                vim.keymap.set('n', "<LocalLeader>ts", "<plug>(vimtex-status)", { desc = "Status" })
+                vim.keymap.set('n', "<LocalLeader>tS", "<plug>(vimtex-status-all)", { desc = "Status (full)" })
+                vim.keymap.set('n', "<LocalLeader>tx", "<plug>(vimtex-clean)", { desc = "Clean" })
+                vim.keymap.set('n', "<LocalLeader>tX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
+                vim.keymap.set('n', "<LocalLeader>ta", "<plug>(vimtex-context-menu)", { desc = "Action" })
+                vim.keymap.set('n', "<LocalLeader>tm", "<plug>(vimtex-imaps-list)", { desc = "List imaps" })
             end
-        },
-
-        {
-            "folke/lazydev.nvim",
-            ft = "lua",
-            opts = {}
         },
 
         {
@@ -313,62 +323,51 @@ require("lazy").setup({
             event = "VeryLazy",
             dependencies = {
                 {
-                    "williamboman/mason.nvim",
-                    opts = {
-                        ui = {
-                            icons = {
-                                package_installed = '',
-                                package_uninstalled = '',
-                                package_pending = ''
-                            }
-                        }
-                    }
+                    "mason-org/mason.nvim",
+                    opts = {}
                 },
 
-                "williamboman/mason-lspconfig.nvim",
+                "mason-org/mason-lspconfig.nvim",
             },
-            config = function ()
+            config = function()
                 vim.api.nvim_create_autocmd("LspAttach", {
-                    group = vim.api.nvim_create_augroup("MyLspConfig", {}),
-                    callback = function (event)
-                        vim.bo[event.buf].omnifunc = "v:lua.MiniCompletion.completefunc_lsp"
-                        vim.keymap.set('n', "<Leader>ld", function ()
+                    group = vim.api.nvim_create_augroup("LSPKeymapConfig", {}),
+                    callback = function(args)
+                        vim.keymap.set('n', "<Leader>ld", function()
                             MiniExtra.pickers.lsp({ scope = "definition" })
-                        end, { buffer = event.buf, desc = "Definition" })
-                        vim.keymap.set('n', "<Leader>li", function ()
+                        end, { buffer = args.buf, desc = "Go to definition" })
+                        vim.keymap.set('n', "<Leader>li", function()
                             MiniExtra.pickers.lsp({ scope = "implementation" })
-                        end, { buffer = event.buf, desc = "Implementation" })
-                        vim.keymap.set('n', "<Leader>lr", function ()
+                        end, { buffer = args.buf, desc = "Go to implementation" })
+                        vim.keymap.set('n', "<Leader>lr", function()
                             MiniExtra.pickers.lsp({ scope = "references" })
-                        end, { buffer = event.buf, desc = "References" })
-                        vim.keymap.set('n', "<Leader>ls", function ()
+                        end, { buffer = args.buf, desc = "Go to references" })
+                        vim.keymap.set('n', "<Leader>ls", function()
                             MiniExtra.pickers.lsp({ scope = "document_symbol" })
-                        end, { buffer = event.buf, desc = "Search file" })
-                        vim.keymap.set('n', "<Leader>lS", function ()
+                        end, { buffer = args.buf, desc = "Open document symbols" })
+                        vim.keymap.set('n', "<Leader>lS", function()
                             MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
-                        end, { buffer = event.buf, desc = "Search workspace" })
+                        end, { buffer = args.buf, desc = "Open workspace symbols" })
                         vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { desc = "Show diagnostic" })
-                        vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = event.buf, desc = "Information" })
-                        vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = event.buf, desc = "Rename" })
-                        vim.keymap.set({ 'n', 'v' }, "<Leader>la", vim.lsp.buf.code_action,
-                            { buffer = event.buf, desc = "Action" })
-                        vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function ()
+                        vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = args.buf, desc = "Information" })
+                        vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename" })
+                        vim.keymap.set({ 'n', 'x' }, "<Leader>la", vim.lsp.buf.code_action,
+                            { buffer = args.buf, desc = "Action" })
+                        vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
                             vim.lsp.buf.format({ async = true })
-                        end, { buffer = event.buf, desc = "Format" })
+                        end, { buffer = args.buf, desc = "Format" })
                     end
                 })
 
                 require("mason").setup()
-                local servers = {
-                    lua_ls = {},
+                local server_config = {
                     clangd = {}
                 }
                 require("mason-lspconfig").setup({
-                    ensure_installed = { "lua_ls" },
                     automatic_enable = true,
                     handlers = {
-                        function (server_name)
-                            require("lspconfig")[server_name].setup(servers[server_name] or {})
+                        function(server_name)
+                            require("lspconfig")[server_name].setup(server_config[server_name] or {})
                         end
                     }
                 })
@@ -376,77 +375,42 @@ require("lazy").setup({
         }
     },
 
+    default = {
+        version = "*"
+    },
+
     install = {
         colorscheme = { "default" }
     },
 
-    checker = {
-        enabled = true
-    },
-
-    performance = {
-        rtp = {
-            disabled_plugins = {
-                "netrwPlugin",
-                "tutor"
-            }
+    rtp = {
+        disabled_plugins = {
+            "netrwPlugin",
+            "tutor"
         }
-    },
-
-    ui = {
-        icons = {
-            cmd = "(cmd)",
-            config = "(cfg)",
-            event = "(event)",
-            ft = "(ft)",
-            init = "(init)",
-            keys = "(key)",
-            plugin = "(plugin)",
-            runtime = "(rt)",
-            require = "(req)",
-            source = "(src)",
-            start = "(start)",
-            task = "(task)",
-            lazy = "(lazy)",
-        },
     }
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = { "*.c", "*.h", "*.cc", "*.hh", "*.cpp", "*.hpp", "*.cxx", "*.hxx", "*.C", "*.H" },
-    callback = function (event)
-        vim.bo[event.buf].commentstring = "//%s"
+    callback = function(args)
+        vim.bo[args.buf].commentstring = "//%s"
     end
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = { "makefile", "Makefile" },
-    callback = function (event)
-        vim.bo[event.buf].expandtab = false
+    callback = function(args)
+        vim.bo[args.buf].expandtab = false
     end
 })
-
-vim.api.nvim_create_autocmd("BufRead", {
-    pattern = "*",
-    callback = function (event)
-        if vim.bo[event.buf].modifiable then
-            vim.bo[event.buf].keymap = "vietnamese-telex_utf-8"
-            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i<C-^><ESC>", true, false, true), 'n', true)
-        end
-    end
-})
-vim.keymap.set('i', "<A-i>", "<C-^>")
 
 vim.keymap.set('n', "<Esc>", vim.cmd.nohlsearch)
 vim.keymap.set({ 'n', 'v' }, 'J', "<C-d>")
 vim.keymap.set({ 'n', 'v' }, 'K', "<C-u>")
-vim.keymap.set({ 'n', 'v' }, 'H', 'b')
-vim.keymap.set({ 'n', 'v' }, 'L', 'w')
 vim.keymap.set('n', 'U', "<C-r>")
-vim.keymap.set('n', "]]", "<C-]>")
-vim.keymap.set('n', "[[", "<C-t>")
 
-vim.keymap.set('n', "<Leader>bs", vim.cmd.write, { desc = "Save" })
+vim.keymap.set('n', "<Leader>bw", vim.cmd.write, { desc = "Write" })
 vim.keymap.set('n', "<Leader>bd", vim.cmd.bdelete, { desc = "Delete" })
 
 vim.keymap.set('n', "<Leader>ws", vim.cmd.split, { desc = "Split" })
@@ -462,9 +426,3 @@ vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move left" })
 vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move down" })
 vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move up" })
 vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move right" })
-
-vim.keymap.set('n', "<Leader>tt", vim.cmd.tabnew, { desc = "New tab" })
-vim.keymap.set('n', "<Leader>tc", vim.cmd.tabclose, { desc = "Close tab" })
-vim.keymap.set('n', "<Leader>to", vim.cmd.tabonly, { desc = "Close other tabs" })
-vim.keymap.set('n', "<Leader>tn", vim.cmd.tabnext, { desc = "Next tab" })
-vim.keymap.set('n', "<Leader>tp", vim.cmd.tabprevious, { desc = "Previous tab" })
