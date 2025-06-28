@@ -86,10 +86,7 @@ require("lazy").setup({
                         clue.gen_clues.registers(),
 
                         { mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
-                        { mode = 'n', keys = "<Leader>l", desc = "+LSP" },
                         { mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-                        { mode = 'n', keys = "<Leader>pd", desc = "+Diagnostics" },
-                        { mode = 'n', keys = "<Leader>t", desc = "+VimTeX" },
                         { mode = 'n', keys = "<Leader>w", desc = "+Window" }
                     },
 
@@ -128,28 +125,6 @@ require("lazy").setup({
                 vim.keymap.set('n', "<Leader>d", MiniDiff.toggle_overlay, { desc = "Diff" })
 
                 require("mini.extra").setup()
-                vim.keymap.set('n', "<Leader>pdw", function()
-                    MiniExtra.pickers.diagnostic({
-                        get_opts = { severity = vim.diagnostic.severity.WARN },
-                        scope = "current"
-                    })
-                end, { desc = "Warnings (Current file)" })
-                vim.keymap.set('n', "<Leader>pdW", function()
-                    MiniExtra.pickers.diagnostic({
-                        get_opts = { severity = vim.diagnostic.severity.WARN }
-                    })
-                end, { desc = "Warnings" })
-                vim.keymap.set('n', "<Leader>pde", function()
-                    MiniExtra.pickers.diagnostic({
-                        get_opts = { severity = vim.diagnostic.severity.ERROR },
-                        scope = "current"
-                    })
-                end, { desc = "Errors (Current file)" })
-                vim.keymap.set('n', "<Leader>pdE", function()
-                    MiniExtra.pickers.diagnostic({
-                        get_opts = { severity = vim.diagnostic.severity.ERROR }
-                    })
-                end, { desc = "Errors" })
                 vim.keymap.set('n', "<Leader>pq", function() MiniExtra.pickers.list({ scope = "quickfix" }) end, { desc = "Quickfix" })
 
                 require("mini.files").setup({
@@ -196,15 +171,21 @@ require("lazy").setup({
                 local pick = require("mini.pick")
                 pick.setup({
                     mappings = {
+                        caret_left = "<A-l>",
+                        caret_right = "<A-h>",
+
                         move_down = "<A-j>",
                         move_up = "<A-k>",
                         scroll_down = "<A-J>",
                         scroll_up = "<A-K>",
 
-                        choose_in_split = "<A-s>",
-                        choose_in_vsplit = "<A-v>",
+                        refine = "<A-r>",
 
-                        refine = "<A-r>"
+                        mark = "<A-m>",
+                        mark_all = "<A-a>",
+
+                        choose_in_split = "<A-s>",
+                        choose_in_vsplit = "<A-v>"
                     },
 
                     options = {
@@ -237,8 +218,7 @@ require("lazy").setup({
                         }
                     })
                 end, { desc = "Help" })
-                vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers,
-                    { desc = "Buffers" })
+                vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers, { desc = "Buffers" })
                 vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Files" })
                 vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live, { desc = "Grep" })
                 vim.keymap.set('n', "<Leader>pp", MiniPick.builtin.resume, { desc = "Resume" })
@@ -283,38 +263,16 @@ require("lazy").setup({
             "lervag/vimtex",
             lazy = false,
             config = function()
-                vim.g.vimtex_mappings_prefix = "<LocalLeader>lt"
-                vim.g.vimtex_compiler_latexmk = {
-                    aux_dir = "./aux",
-                    out_dir = "./out",
-                    options = {
-                        "-emulate-aux-dir",
-                        "-verbose",
-                        "-file-line-error",
-                        "-synctex=1",
-                        "-interaction=nonstopmode"
-                    }
-                }
+                vim.g.vimtex_compiler_silent = 1
+                vim.g.vimtex_complete_enabled = 0
                 vim.g.vimtex_format_enabled = 1
-                vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
-                vim.keymap.set('n', "<LocalLeader>ti", "<plug>(vimtex-info)", { desc = "Info" })
-                vim.keymap.set('n', "<LocalLeader>tI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
-                vim.keymap.set('n', "<LocalLeader>td", "<plug>(vimtex-doc-package)", { desc = "Documentation" })
-                vim.keymap.set('n', "<LocalLeader>tt", "<plug>(vimtex-toc-toggle)", { desc = "Toggle toc" })
-                vim.keymap.set('n', "<LocalLeader>tl", "<plug>(vimtex-log)", { desc = "Log" })
-                vim.keymap.set('n', "<LocalLeader>tv", "<plug>(vimtex-view)", { desc = "View pdf" })
-                vim.keymap.set('n', "<LocalLeader>tc", "<plug>(vimtex-compile)", { desc = "Compile" })
-                vim.keymap.set('n', "<LocalLeader>tC", "<plug>(vimtex-compile-selected)", { desc = "Compile selected" })
-                vim.keymap.set('n', "<LocalLeader>tk", "<plug>(vimtex-stop)", { desc = "Stop" })
-                vim.keymap.set('n', "<LocalLeader>tK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
-                vim.keymap.set('n', "<LocalLeader>te", "<plug>(vimtex-errors)", { desc = "Errors" })
-                vim.keymap.set('n', "<LocalLeader>to", "<plug>(vimtex-compile-output)", { desc = "Compile output" })
-                vim.keymap.set('n', "<LocalLeader>ts", "<plug>(vimtex-status)", { desc = "Status" })
-                vim.keymap.set('n', "<LocalLeader>tS", "<plug>(vimtex-status-all)", { desc = "Status (full)" })
-                vim.keymap.set('n', "<LocalLeader>tx", "<plug>(vimtex-clean)", { desc = "Clean" })
-                vim.keymap.set('n', "<LocalLeader>tX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
-                vim.keymap.set('n', "<LocalLeader>ta", "<plug>(vimtex-context-menu)", { desc = "Action" })
-                vim.keymap.set('n', "<LocalLeader>tm", "<plug>(vimtex-imaps-list)", { desc = "List imaps" })
+                vim.g.vimtex_imaps_enabled = 0
+                vim.g.vimtex_mappings_enabled = 0
+                if vim.loop.os_uname().sysname == "Windows_NT" then
+                    vim.g.vimtex_view_method = "sioyek"
+                else
+                    vim.g.vimtex_view_method = "zathura"
+                end
             end
         },
 
@@ -333,6 +291,12 @@ require("lazy").setup({
                 vim.api.nvim_create_autocmd("LspAttach", {
                     group = vim.api.nvim_create_augroup("LSPKeymapConfig", {}),
                     callback = function(args)
+                        vim.b[args.buf].miniclue_config = {
+                            clues = {
+                                { mode = 'n', keys = "<Leader>l", desc = "+LSP" },
+                                { mode = 'n', keys = "<Leader>pd", desc = "+Diagnostics" }
+                            }
+                        }
                         vim.keymap.set('n', "<Leader>ld", function()
                             MiniExtra.pickers.lsp({ scope = "definition" })
                         end, { buffer = args.buf, desc = "Go to definition" })
@@ -348,7 +312,29 @@ require("lazy").setup({
                         vim.keymap.set('n', "<Leader>lS", function()
                             MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
                         end, { buffer = args.buf, desc = "Open workspace symbols" })
-                        vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { desc = "Show diagnostic" })
+                        vim.keymap.set('n', "<Leader>pdw", function()
+                            MiniExtra.pickers.diagnostic({
+                                get_opts = { severity = vim.diagnostic.severity.WARN },
+                                scope = "current"
+                            })
+                        end, { buffer = args.buf, desc = "Warnings (Current file)" })
+                        vim.keymap.set('n', "<Leader>pdW", function()
+                            MiniExtra.pickers.diagnostic({
+                                get_opts = { severity = vim.diagnostic.severity.WARN }
+                            })
+                        end, { buffer = args.buf, desc = "Warnings" })
+                        vim.keymap.set('n', "<Leader>pde", function()
+                            MiniExtra.pickers.diagnostic({
+                                get_opts = { severity = vim.diagnostic.severity.ERROR },
+                                scope = "current"
+                            })
+                        end, { buffer = args.buf, desc = "Errors (Current file)" })
+                        vim.keymap.set('n', "<Leader>pdE", function()
+                            MiniExtra.pickers.diagnostic({
+                                get_opts = { severity = vim.diagnostic.severity.ERROR }
+                            })
+                        end, { buffer = args.buf, desc = "Errors" })
+                        vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { buffer = args.buf, desc = "Show diagnostic" })
                         vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = args.buf, desc = "Information" })
                         vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename" })
                         vim.keymap.set({ 'n', 'x' }, "<Leader>la", vim.lsp.buf.code_action,
