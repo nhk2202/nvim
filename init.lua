@@ -347,10 +347,10 @@ require("lazy").setup({
 
                 require("mason").setup()
                 local server_config = {
-                    clangd = {}
+                    clangd = {},
+                    harper_ls = {}
                 }
                 require("mason-lspconfig").setup({
-                    automatic_enable = true,
                     handlers = {
                         function(server_name)
                             require("lspconfig")[server_name].setup(server_config[server_name] or {})
