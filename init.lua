@@ -79,6 +79,7 @@ require("lazy").setup({
                 clue.setup({
                     triggers = {
                         { mode = 'n', keys = "<Leader>" },
+                        { mode = 'v', keys = "<Leader>" },
                         { mode = 'n', keys = '"' },
                     },
 
@@ -94,6 +95,8 @@ require("lazy").setup({
                         config = {
                             width = "auto"
                         },
+
+                        delay = 500,
 
                         scroll_down = "<A-j>",
                         scroll_up = "<A-k>"
@@ -265,7 +268,6 @@ require("lazy").setup({
             config = function()
                 vim.g.vimtex_compiler_silent = 1
                 vim.g.vimtex_complete_enabled = 0
-                vim.g.vimtex_format_enabled = 1
                 vim.g.vimtex_imaps_enabled = 0
                 vim.g.vimtex_mappings_enabled = 0
                 if vim.loop.os_uname().sysname == "Windows_NT" then
@@ -294,6 +296,7 @@ require("lazy").setup({
                         vim.b[args.buf].miniclue_config = {
                             clues = {
                                 { mode = 'n', keys = "<Leader>l", desc = "+LSP" },
+                                { mode = 'v', keys = "<Leader>l", desc = "+LSP" },
                                 { mode = 'n', keys = "<Leader>pd", desc = "+Diagnostics" }
                             }
                         }
@@ -337,7 +340,7 @@ require("lazy").setup({
                         vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { buffer = args.buf, desc = "Show diagnostic" })
                         vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = args.buf, desc = "Information" })
                         vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename" })
-                        vim.keymap.set({ 'n', 'x' }, "<Leader>la", vim.lsp.buf.code_action,
+                        vim.keymap.set('n', "<Leader>la", vim.lsp.buf.code_action,
                             { buffer = args.buf, desc = "Action" })
                         vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
                             vim.lsp.buf.format({ async = true })
