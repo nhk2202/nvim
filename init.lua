@@ -264,6 +264,7 @@ require("lazy").setup({
 
         {
             "lervag/vimtex",
+            enabled = false,
             lazy = false,
             config = function()
                 vim.g.vimtex_compiler_silent = 1
