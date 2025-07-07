@@ -336,8 +336,7 @@ require("lazy").setup({
                         vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { buffer = args.buf, desc = "Show diagnostic" })
                         vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = args.buf, desc = "Information" })
                         vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename" })
-                        vim.keymap.set('n', "<Leader>la", vim.lsp.buf.code_action,
-                            { buffer = args.buf, desc = "Action" })
+                        vim.keymap.set('n', "<Leader>la", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Action" })
                         vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
                             vim.lsp.buf.format({ async = true })
                         end, { buffer = args.buf, desc = "Format" })
