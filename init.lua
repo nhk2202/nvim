@@ -97,9 +97,6 @@ require("lazy").setup({
                         },
 
                         delay = 500,
-
-                        scroll_down = "<A-j>",
-                        scroll_up = "<A-k>"
                     }
                 })
 
@@ -174,21 +171,19 @@ require("lazy").setup({
                 local pick = require("mini.pick")
                 pick.setup({
                     mappings = {
-                        caret_left = "<A-l>",
-                        caret_right = "<A-h>",
+                        caret_left = "<C-f>",
+                        caret_right = "<C-b>",
 
-                        move_down = "<A-j>",
-                        move_up = "<A-k>",
-                        scroll_down = "<A-J>",
-                        scroll_up = "<A-K>",
+                        mark = "<C-m>",
 
-                        refine = "<A-r>",
+                        choose_in_split = "",
+                        choose_in_vsplit = "<C-s>",
+                        choose_marked = "<S-CR>",
 
-                        mark = "<A-m>",
-                        mark_all = "<A-a>",
+                        refine_marked = "<S-Space>",
 
-                        choose_in_split = "<A-s>",
-                        choose_in_vsplit = "<A-v>"
+                        scroll_down = "<C-d>",
+                        scroll_up = "<C-u>"
                     },
 
                     options = {
@@ -216,8 +211,8 @@ require("lazy").setup({
                 vim.keymap.set('n', "<Leader>h", function()
                     MiniPick.builtin.help({}, {
                         mappings = {
-                            show_help_in_split = { char = "<A-s>" },
-                            show_help_in_vsplit = { char = "<A-v>" },
+                            show_help_in_split = { char = "" },
+                            show_help_in_vsplit = { char = "<C-s>" }
                         }
                     })
                 end, { desc = "Help" })
