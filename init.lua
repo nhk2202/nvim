@@ -75,6 +75,9 @@ require("lazy").setup({
                     MiniBracketed.diagnostic("last", { severity = vim.diagnostic.severity.WARN })
                 end)
 
+                require("mini.bufremove").setup()
+                vim.keymap.set('n', "<Leader>bd", MiniBufremove.delete, { desc = "Delete" })
+
                 require("mini.clue").setup({
                     triggers = {
                         { mode = 'n', keys = "<Leader>" },
@@ -393,7 +396,6 @@ vim.keymap.set({ 'n', 'v' }, 'K', "<C-u>")
 vim.keymap.set('n', 'U', "<C-r>")
 
 vim.keymap.set('n', "<Leader>bw", vim.cmd.write, { desc = "Write" })
-vim.keymap.set('n', "<Leader>bd", vim.cmd.bdelete, { desc = "Delete" })
 
 vim.keymap.set('n', "<Leader>ws", vim.cmd.split, { desc = "Split" })
 vim.keymap.set('n', "<Leader>wv", vim.cmd.vsplit, { desc = "Split vertically" })
