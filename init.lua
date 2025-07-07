@@ -75,8 +75,7 @@ require("lazy").setup({
                     MiniBracketed.diagnostic("last", { severity = vim.diagnostic.severity.WARN })
                 end)
 
-                local clue = require("mini.clue")
-                clue.setup({
+                require("mini.clue").setup({
                     triggers = {
                         { mode = 'n', keys = "<Leader>" },
                         { mode = 'v', keys = "<Leader>" },
@@ -84,7 +83,7 @@ require("lazy").setup({
                     },
 
                     clues = {
-                        clue.gen_clues.registers(),
+                        require("mini.clue").gen_clues.registers(),
 
                         { mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
                         { mode = 'n', keys = "<Leader>p", desc = "+Pick" },
@@ -153,14 +152,13 @@ require("lazy").setup({
 
                 require("mini.git").setup()
 
-                local hipatterns = require("mini.hipatterns")
-                hipatterns.setup({
+                require("mini.hipatterns").setup({
                     highlighters = {
                         fixme = { pattern = "%f[%w]()FIXME()%f[%W]", group = "MiniHipatternsFixme" },
                         hack = { pattern = "%f[%w]()HACK()%f[%W]", group = "MiniHipatternsHack" },
                         todo = { pattern = "%f[%w]()TODO()%f[%W]", group = "MiniHipatternsTodo" },
                         note = { pattern = "%f[%w]()NOTE()%f[%W]", group = "MiniHipatternsNote" },
-                        hex_color = hipatterns.gen_highlighter.hex_color()
+                        hex_color = require("mini.hipatterns").gen_highlighter.hex_color()
                     }
                 })
 
@@ -168,8 +166,7 @@ require("lazy").setup({
 
                 require("mini.pairs").setup()
 
-                local pick = require("mini.pick")
-                pick.setup({
+                require("mini.pick").setup({
                     mappings = {
                         caret_left = "<C-f>",
                         caret_right = "<C-b>",
