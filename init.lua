@@ -22,7 +22,7 @@ vim.o.splitright = true
 vim.o.updatetime = 500
 vim.o.confirm = true
 
-vim.opt.clipboard:append("unnamedplus")
+vim.opt.clipboard:append("unnamedplus") -- NOTE: For Windows, make sure Win32yank is installed.
 vim.opt.shortmess:append('S')
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
