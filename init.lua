@@ -171,20 +171,12 @@ require("lazy").setup({
 
                 require("mini.pick").setup({
                     mappings = {
-                        caret_left = "<C-f>",
-                        caret_right = "<C-b>",
-
-                        mark = "<C-m>",
-
-                        choose_in_split = "",
-                        choose_in_vsplit = "<C-s>",
-                        choose_marked = "<S-CR>",
-
-                        refine_marked = "<S-Space>",
+                        caret_left = "<C-b>",
+                        caret_right = "<C-f>",
 
                         scroll_down = "<C-d>",
                         scroll_up = "<C-u>"
-                    },
+                    }, -- NOTE: If using Windows Terminal, make sure to change the keybinding for Paste so it doesn't intercept Ctrl-v.
 
                     options = {
                         use_cache = true
@@ -208,14 +200,7 @@ require("lazy").setup({
                         end
                     }
                 })
-                vim.keymap.set('n', "<Leader>h", function()
-                    MiniPick.builtin.help({}, {
-                        mappings = {
-                            show_help_in_split = { char = "" },
-                            show_help_in_vsplit = { char = "<C-s>" }
-                        }
-                    })
-                end, { desc = "Help" })
+                vim.keymap.set('n', "<Leader>h", MiniPick.builtin.help, { desc = "Help" })
                 vim.keymap.set('n', "<Leader>pb", MiniPick.builtin.buffers, { desc = "Buffers" })
                 vim.keymap.set('n', "<Leader>pf", MiniPick.builtin.files, { desc = "Files" })
                 vim.keymap.set('n', "<Leader>pg", MiniPick.builtin.grep_live, { desc = "Grep" })
