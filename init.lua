@@ -330,7 +330,8 @@ require("lazy").setup({
 
                 require("mason").setup()
                 local server_config = {
-                    clangd = {}
+                    clangd = {},
+                    pylsp = {}
                 }
                 require("mason-lspconfig").setup({
                     handlers = {
