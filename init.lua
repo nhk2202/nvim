@@ -330,8 +330,7 @@ require("lazy").setup({
 
                 require("mason").setup()
                 local server_config = {
-                    clangd = {},
-                    harper_ls = {}
+                    clangd = {}
                 }
                 require("mason-lspconfig").setup({
                     handlers = {
