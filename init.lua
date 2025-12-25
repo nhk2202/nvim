@@ -90,7 +90,8 @@ require("lazy").setup({
 
                         { mode = 'n', keys = "<Leader>b", desc = "+Buffer" },
                         { mode = 'n', keys = "<Leader>p", desc = "+Pick" },
-                        { mode = 'n', keys = "<Leader>w", desc = "+Window" }
+                        { mode = 'n', keys = "<Leader>w", desc = "+Window" },
+                        { mode = 'n', keys = "<Leader>t", desc = "+VimTeX" }
                     },
 
                     window = {
@@ -244,18 +245,41 @@ require("lazy").setup({
 
         {
             "lervag/vimtex",
-            enabled = false,
             lazy = false,
             config = function()
-                vim.g.vimtex_compiler_silent = 1
                 vim.g.vimtex_complete_enabled = 0
                 vim.g.vimtex_imaps_enabled = 0
                 vim.g.vimtex_mappings_enabled = 0
+                vim.g.vimtex_compiler_latexmk = {
+                    aux_dir = "./aux",
+                    out_dir = "./out",
+                }
+                vim.g.vimtex_compiler_latexmk_engines = { _ = "-lualatex" }
+                vim.keymap.set('n', "<Leader>ti", "<plug>(vimtex-info)", { desc = "Info" })
+                vim.keymap.set('n', "<Leader>tI", "<plug>(vimtex-info-full)", { desc = "Info (full)" })
+                vim.keymap.set('n', "<Leader>tt", "<plug>(vimtex-toc-toggle)", { desc = "TOC" })
+                vim.keymap.set('n', "<Leader>tl", "<plug>(vimtex-log)", { desc = "Log" })
+                vim.keymap.set('n', "<Leader>tc", "<plug>(vimtex-compile)", { desc = "Compile" })
+                vim.keymap.set('n', "<Leader>tx", "<plug>(vimtex-clean)", { desc = "Clean" })
+                vim.keymap.set('n', "<Leader>tX", "<plug>(vimtex-clean-full)", { desc = "Clean all" })
+                vim.keymap.set('n', "<Leader>tk", "<plug>(vimtex-stop)", { desc = "Stop" })
+                vim.keymap.set('n', "<Leader>tK", "<plug>(vimtex-stop-all)", { desc = "Stop all" })
+                vim.keymap.set('n', "<Leader>te", "<plug>(vimtex-errors)", { desc = "Errors" })
+                vim.keymap.set('n', "<Leader>to", "<plug>(vimtex-compile-output)", { desc = "Output" })
+                vim.keymap.set('n', "<Leader>ts", "<plug>(vimtex-status)", { desc = "Status" })
+                vim.keymap.set('n', "<Leader>tf", "<plug>(vimtex-view)", { desc = "Forward search" })
+                vim.keymap.set('n', "<Leader>tm", "<plug>(vimtex-context-menu)", { desc = "Context menu" })
                 if vim.loop.os_uname().sysname == "Windows_NT" then
                     vim.g.vimtex_view_method = "sioyek"
                 else
                     vim.g.vimtex_view_method = "zathura"
                 end
+                vim.api.nvim_create_autocmd("FileType", {
+                    pattern = { "markdown", "tex", "bib" },
+                    callback = function()
+                        vim.opt_local.wrap = true
+                    end
+                })
             end
         },
 
@@ -371,6 +395,16 @@ vim.api.nvim_create_autocmd("BufRead", {
     pattern = { "makefile", "Makefile" },
     callback = function(args)
         vim.bo[args.buf].expandtab = false
+    end
+})
+
+vim.api.nvim_create_autocmd("BufRead", {
+    pattern = "*",
+    callback = function(arg)
+        vim.bo[arg.buf].keymap = "vietnamese-telex_utf-8",
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("i<C-^><ESC>", true, falce, true),
+                              'n',
+                              true)
     end
 })
 
