@@ -429,3 +429,6 @@ vim.keymap.set('n', "<Leader>wH", "<C-w>H", { desc = "Move left" })
 vim.keymap.set('n', "<Leader>wJ", "<C-w>J", { desc = "Move down" })
 vim.keymap.set('n', "<Leader>wK", "<C-w>K", { desc = "Move up" })
 vim.keymap.set('n', "<Leader>wL", "<C-w>L", { desc = "Move right" })
+
+vim.keymap.set('n', "<Leader>T", vim.cmd.terminal, { desc = "Terminal" })
+vim.keymap.set('t', "<Esc>", "<C-\\><C-n>")
