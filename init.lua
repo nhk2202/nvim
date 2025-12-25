@@ -148,8 +148,8 @@ require("lazy").setup({
                 end
                 vim.api.nvim_create_autocmd("User", {
                     pattern = "MiniFilesBufferCreate",
-                    callback = function(args)
-                        local buf_id = args.data.buf_id
+                    callback = function(arg)
+                        local buf_id = arg.data.buf_id
                         vim.keymap.set('n', "g.", toggle_dotfiles, { buffer = buf_id })
                     end,
                 })
@@ -297,8 +297,8 @@ require("lazy").setup({
             config = function()
                 vim.api.nvim_create_autocmd("LspAttach", {
                     group = vim.api.nvim_create_augroup("LSPKeymapConfig", {}),
-                    callback = function(args)
-                        vim.b[args.buf].miniclue_config = {
+                    callback = function(arg)
+                        vim.b[arg.buf].miniclue_config = {
                             clues = {
                                 { mode = 'n', keys = "<Leader>l", desc = "+LSP" },
                                 { mode = 'v', keys = "<Leader>l", desc = "+LSP" },
@@ -307,48 +307,49 @@ require("lazy").setup({
                         }
                         vim.keymap.set('n', "<Leader>ld", function()
                             MiniExtra.pickers.lsp({ scope = "definition" })
-                        end, { buffer = args.buf, desc = "Go to definition" })
+                        end, { buffer = arg.buf, desc = "Go to definition" })
                         vim.keymap.set('n', "<Leader>li", function()
                             MiniExtra.pickers.lsp({ scope = "implementation" })
-                        end, { buffer = args.buf, desc = "Go to implementation" })
+                        end, { buffer = arg.buf, desc = "Go to implementation" })
                         vim.keymap.set('n', "<Leader>lr", function()
                             MiniExtra.pickers.lsp({ scope = "references" })
-                        end, { buffer = args.buf, desc = "Go to references" })
+                        end, { buffer = arg.buf, desc = "Go to references" })
                         vim.keymap.set('n', "<Leader>ls", function()
                             MiniExtra.pickers.lsp({ scope = "document_symbol" })
-                        end, { buffer = args.buf, desc = "Open document symbols" })
+                        end, { buffer = arg.buf, desc = "Open document symbols" })
                         vim.keymap.set('n', "<Leader>lS", function()
                             MiniExtra.pickers.lsp({ scope = "workspace_symbol" })
-                        end, { buffer = args.buf, desc = "Open workspace symbols" })
+                        end, { buffer = arg.buf, desc = "Open workspace symbols" })
                         vim.keymap.set('n', "<Leader>pdw", function()
                             MiniExtra.pickers.diagnostic({
                                 get_opts = { severity = vim.diagnostic.severity.WARN },
                                 scope = "current"
                             })
-                        end, { buffer = args.buf, desc = "Warnings (Current file)" })
+                        end, { buffer = arg.buf, desc = "Warnings (Current file)" })
                         vim.keymap.set('n', "<Leader>pdW", function()
                             MiniExtra.pickers.diagnostic({
                                 get_opts = { severity = vim.diagnostic.severity.WARN }
                             })
-                        end, { buffer = args.buf, desc = "Warnings" })
+                        end, { buffer = arg.buf, desc = "Warnings" })
                         vim.keymap.set('n', "<Leader>pde", function()
                             MiniExtra.pickers.diagnostic({
                                 get_opts = { severity = vim.diagnostic.severity.ERROR },
                                 scope = "current"
                             })
-                        end, { buffer = args.buf, desc = "Errors (Current file)" })
+                        end, { buffer = arg.buf, desc = "Errors (Current file)" })
                         vim.keymap.set('n', "<Leader>pdE", function()
                             MiniExtra.pickers.diagnostic({
                                 get_opts = { severity = vim.diagnostic.severity.ERROR }
                             })
-                        end, { buffer = args.buf, desc = "Errors" })
-                        vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { buffer = args.buf, desc = "Show diagnostic" })
-                        vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = args.buf, desc = "Information" })
-                        vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = args.buf, desc = "Rename" })
-                        vim.keymap.set('n', "<Leader>la", vim.lsp.buf.code_action, { buffer = args.buf, desc = "Action" })
+                        end, { buffer = arg.buf, desc = "Errors" })
+                        vim.keymap.set('n', "<Leader>lD", vim.diagnostic.open_float, { buffer = arg.buf, desc = "Show diagnostic" })
+                        vim.keymap.set('n', "<Leader>ll", vim.lsp.buf.hover, { buffer = arg.buf, desc = "Information" })
+                        vim.keymap.set('n', "<Leader>ls", vim.lsp.buf.signature_help, { buffer = arg.buf, desc = "Show signature" })
+                        vim.keymap.set('n', "<Leader>ln", vim.lsp.buf.rename, { buffer = arg.buf, desc = "Rename" })
+                        vim.keymap.set('n', "<Leader>la", vim.lsp.buf.code_action, { buffer = arg.buf, desc = "Action" })
                         vim.keymap.set({ 'n', 'v' }, "<Leader>lf", function()
                             vim.lsp.buf.format({ async = true })
-                        end, { buffer = args.buf, desc = "Format" })
+                        end, { buffer = arg.buf, desc = "Format" })
                     end
                 })
 
@@ -386,15 +387,15 @@ require("lazy").setup({
 
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = { "*.c", "*.h", "*.cc", "*.hh", "*.cpp", "*.hpp", "*.cxx", "*.hxx", "*.C", "*.H" },
-    callback = function(args)
-        vim.bo[args.buf].commentstring = "//%s"
+    callback = function(arg)
+        vim.bo[arg.buf].commentstring = "//%s"
     end
 })
 
 vim.api.nvim_create_autocmd("BufRead", {
     pattern = { "makefile", "Makefile" },
-    callback = function(args)
-        vim.bo[args.buf].expandtab = false
+    callback = function(arg)
+        vim.bo[arg.buf].expandtab = false
     end
 })
 
